@@ -74,7 +74,7 @@ class Form extends React.Component {
         numeroMes++
         datos.push(total)
         inicial.push(dineroInicial)
-        meses.push(numeroMes)
+        meses.push("mes " + numeroMes)
         dineroTotal += ingresoExtraMensual
         ingresoExtraMes.push(dineroTotal)
         this.setState({

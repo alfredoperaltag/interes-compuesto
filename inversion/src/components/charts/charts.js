@@ -16,18 +16,21 @@ class Charts extends Component {
                         label: "Dinero inicial",
                         data: this.props.inicial,
                         borderColor: 'black',
+                        backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2
                     }
                     , {
                         label: "Ingreso Extra Mensual",
                         data: this.props.ingresoExtraMensual,
                         borderColor: 'blue',
+                        backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2
                     },
                     {
-                        label: "Inversion",
+                        label: "Interes Compuesto",
                         data: this.props.datos,
                         borderColor: 'green',
+                        backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2,
                     }
                 ]
