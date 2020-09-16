@@ -8,7 +8,7 @@ class Form extends React.Component {
     super(props)
     this.state = {
       dateStart: moment(),
-      calendario: moment("2022-07-10"),
+      calendario: "2022-07-10",
       total: 7369,
       porcentaje: 6,
       ingresoExtraMensual: 1874,
@@ -28,15 +28,9 @@ class Form extends React.Component {
   handleInputChange(event) {
     const target = event.target
     const id = target.id
-    if (id !== "calendario") {
-      this.setState({
-        [id]: parseInt(target.value)
-      });
-    } else {
-      this.setState({
-        calendario: target.value
-      })
-    }
+    this.setState({
+      [id]: target.value
+    })
   }
 
   handleSubmit(event) {
@@ -47,10 +41,10 @@ class Form extends React.Component {
   inversion = () => {
     let calendario = moment(this.state.calendario)
     let days = calendario.diff(this.state.dateStart, 'days')
-    let total = this.state.total
-    let porcentaje = this.state.porcentaje
-    let ingresoExtraMensual = this.state.ingresoExtraMensual
-    let cantidadAConsultarPesos = this.state.cantidadConsultar
+    let total = parseInt(this.state.total)
+    let porcentaje = parseInt(this.state.porcentaje)
+    let ingresoExtraMensual = parseInt(this.state.ingresoExtraMensual)
+    let cantidadAConsultarPesos = parseInt(this.state.cantidadConsultar)
     let dineroInicial = total
     let gananciaDia = 0
     let gananciasTotales = 0
