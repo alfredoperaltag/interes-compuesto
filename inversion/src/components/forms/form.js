@@ -18,7 +18,8 @@ class Form extends React.Component {
       inicial: [],
       ingresoExtraMes: [],
       labelCantidadConsultada: "",
-      labelGenerarCentavo: ""
+      labelGenerarCentavo: "",
+      showChart: false
     }
 
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -31,10 +32,12 @@ class Form extends React.Component {
     this.setState({
       [id]: target.value
     })
+    this.setState({showChart:false})
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
+  handleSubmit = async (event)=> {
+    await event.preventDefault();
+    this.setState({showChart:true})
     this.inversion()
   }
 
@@ -100,7 +103,8 @@ class Form extends React.Component {
   }
 
   render() {
-    return <form onSubmit={this.handleSubmit}>
+    if (this.state.showChart) {
+      return <form onSubmit={this.handleSubmit}>
       <Input type="date" id="calendario" value={this.state.calendario} onChange={this.handleInputChange}>Fecha limite: </Input>
       <Input type="number" min="0" id="total" value={this.state.total} onChange={this.handleInputChange}>Total: </Input>
       <Input type="number" min="0" id="porcentaje" value={this.state.porcentaje} onChange={this.handleInputChange}>Porcentaje: </Input>
@@ -111,6 +115,19 @@ class Form extends React.Component {
       <p>Dias para generar un centavo: {this.state.labelGenerarCentavo}</p>
       <Charts datos={this.state.datos} meses={this.state.meses} inicial={this.state.inicial} ingresoExtraMensual={this.state.ingresoExtraMes} />
     </form>
+    } else {
+      return <form onSubmit={this.handleSubmit}>
+      <Input type="date" id="calendario" value={this.state.calendario} onChange={this.handleInputChange}>Fecha limite: </Input>
+      <Input type="number" min="0" id="total" value={this.state.total} onChange={this.handleInputChange}>Total: </Input>
+      <Input type="number" min="0" id="porcentaje" value={this.state.porcentaje} onChange={this.handleInputChange}>Porcentaje: </Input>
+      <Input type="number" min="0" id="ingresoExtraMensual" value={this.state.ingresoExtraMensual} onChange={this.handleInputChange}>Ingreso extra mensual: </Input>
+      <Input type="number" min="0" id="cantidadConsultar" value={this.state.cantidadConsultar} onChange={this.handleInputChange}>Cantidad a consultar: </Input>
+      <button type="submit" className="btn btn-primary">Aceptar</button>
+      <p>Dias(Meses) para generar {this.state.cantidadConsultar} pesos: {this.state.labelCantidadConsultada}</p>
+      <p>Dias para generar un centavo: {this.state.labelGenerarCentavo}</p>
+    </form>
+    }
+    
   }
 }
 
