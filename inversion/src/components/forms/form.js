@@ -9,7 +9,7 @@ class Form extends React.Component {
     this.state = {
       dateStart: moment(),
       calendario: "2022-07-10",
-      total: 7369,
+      total: 8369,
       porcentaje: 6,
       ingresoExtraMensual: 1874,
       cantidadConsultar: 50,
@@ -23,7 +23,7 @@ class Form extends React.Component {
     }
 
     this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    //this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleInputChange(event) {
@@ -32,12 +32,12 @@ class Form extends React.Component {
     this.setState({
       [id]: target.value
     })
-    this.setState({showChart:false})
+    this.setState({ showChart: false })
   }
 
-  handleSubmit = async (event)=> {
+  handleSubmit = async (event) => {
     await event.preventDefault();
-    this.setState({showChart:true})
+    this.setState({ showChart: true })
     this.inversion()
   }
 
@@ -105,29 +105,58 @@ class Form extends React.Component {
   render() {
     if (this.state.showChart) {
       return <form onSubmit={this.handleSubmit}>
-      <Input type="date" id="calendario" value={this.state.calendario} onChange={this.handleInputChange}>Fecha limite: </Input>
-      <Input type="number" min="0" id="total" value={this.state.total} onChange={this.handleInputChange}>Total: </Input>
-      <Input type="number" min="0" id="porcentaje" value={this.state.porcentaje} onChange={this.handleInputChange}>Porcentaje: </Input>
-      <Input type="number" min="0" id="ingresoExtraMensual" value={this.state.ingresoExtraMensual} onChange={this.handleInputChange}>Ingreso extra mensual: </Input>
-      <Input type="number" min="0" id="cantidadConsultar" value={this.state.cantidadConsultar} onChange={this.handleInputChange}>Cantidad a consultar: </Input>
-      <button type="submit" className="btn btn-primary">Aceptar</button>
-      <p>Dias(Meses) para generar {this.state.cantidadConsultar} pesos: {this.state.labelCantidadConsultada}</p>
-      <p>Dias para generar un centavo: {this.state.labelGenerarCentavo}</p>
-      <Charts datos={this.state.datos} meses={this.state.meses} inicial={this.state.inicial} ingresoExtraMensual={this.state.ingresoExtraMes} />
-    </form>
+        <div className="row">
+          <div className="col">
+            <h1>Interes Compuesto</h1>
+          </div>
+        </div>
+        <div className="row justify-content-center">
+          <div className="col-sm-12 col-md-3">
+            <Input type="date" id="calendario" value={this.state.calendario} onChange={this.handleInputChange}>Fecha limite: </Input>
+            <Input type="number" min="0" id="total" value={this.state.total} onChange={this.handleInputChange}>Total: </Input>
+          </div>
+          <div className="col-sm-12 col-md-3">
+            <Input type="number" min="0" id="porcentaje" value={this.state.porcentaje} onChange={this.handleInputChange}>Porcentaje: </Input>
+            <Input type="number" min="0" id="ingresoExtraMensual" value={this.state.ingresoExtraMensual} onChange={this.handleInputChange}>Ingreso extra mensual: </Input>
+          </div>
+          <div className="col-sm-12 col-md-3">
+            <Input type="number" min="0" id="cantidadConsultar" value={this.state.cantidadConsultar} onChange={this.handleInputChange}>Cantidad a consultar: </Input>
+            <button type="submit" className="col-md-3 btn btn-primary float-left mt-4">Aceptar</button>
+          </div>
+        </div>
+        <div className="row justify-content-center">
+          <div className="col-md-3">
+            <p>Dias(Meses) para generar {this.state.cantidadConsultar} pesos: {this.state.labelCantidadConsultada}</p>
+          </div>
+          <div className="col-md-3">
+            <p>Dias para generar un centavo: {this.state.labelGenerarCentavo}</p>
+          </div>
+        </div>
+        <Charts datos={this.state.datos} meses={this.state.meses} inicial={this.state.inicial} ingresoExtraMensual={this.state.ingresoExtraMes} />
+      </form>
     } else {
       return <form onSubmit={this.handleSubmit}>
-      <Input type="date" id="calendario" value={this.state.calendario} onChange={this.handleInputChange}>Fecha limite: </Input>
-      <Input type="number" min="0" id="total" value={this.state.total} onChange={this.handleInputChange}>Total: </Input>
-      <Input type="number" min="0" id="porcentaje" value={this.state.porcentaje} onChange={this.handleInputChange}>Porcentaje: </Input>
-      <Input type="number" min="0" id="ingresoExtraMensual" value={this.state.ingresoExtraMensual} onChange={this.handleInputChange}>Ingreso extra mensual: </Input>
-      <Input type="number" min="0" id="cantidadConsultar" value={this.state.cantidadConsultar} onChange={this.handleInputChange}>Cantidad a consultar: </Input>
-      <button type="submit" className="btn btn-primary">Aceptar</button>
-      <p>Dias(Meses) para generar {this.state.cantidadConsultar} pesos: {this.state.labelCantidadConsultada}</p>
-      <p>Dias para generar un centavo: {this.state.labelGenerarCentavo}</p>
-    </form>
+        <div className="row">
+          <div className="col">
+            <h1>Interes Compuesto</h1>
+          </div>
+        </div>
+        <div className="row justify-content-center">
+          <div className="col-sm-12 col-md-3">
+            <Input type="date" id="calendario" value={this.state.calendario} onChange={this.handleInputChange}>Fecha limite: </Input>
+            <Input type="number" min="0" id="total" value={this.state.total} onChange={this.handleInputChange}>Total: </Input>
+          </div>
+          <div className="col-sm-12 col-md-3">
+            <Input type="number" min="0" id="porcentaje" value={this.state.porcentaje} onChange={this.handleInputChange}>Porcentaje: </Input>
+            <Input type="number" min="0" id="ingresoExtraMensual" value={this.state.ingresoExtraMensual} onChange={this.handleInputChange}>Ingreso extra mensual: </Input>
+          </div>
+          <div className="col-sm-12 col-md-3">
+            <Input type="number" min="0" id="cantidadConsultar" value={this.state.cantidadConsultar} onChange={this.handleInputChange}>Cantidad a consultar: </Input>
+            <button type="submit" className="col-md-3 btn btn-primary float-left mt-4">Aceptar</button>
+          </div>
+        </div>
+      </form>
     }
-    
   }
 }
 

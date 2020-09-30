@@ -4,7 +4,7 @@ import Form from './components/forms/form'
 
 function App() {
   return (
-    <div className="App container">
+    <div className="App container-fluid">
       <Form />
     </div>
   );
