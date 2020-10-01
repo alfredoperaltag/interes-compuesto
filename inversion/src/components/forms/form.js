@@ -19,11 +19,9 @@ class Form extends React.Component {
       ingresoExtraMes: [],
       labelCantidadConsultada: "",
       labelGenerarCentavo: "",
-      showChart: false
+      //showChart: false
+      showChart: true
     }
-
-    this.handleInputChange = this.handleInputChange.bind(this)
-    //this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleInputChange(event) {
@@ -32,12 +30,13 @@ class Form extends React.Component {
     this.setState({
       [id]: target.value
     })
-    this.setState({ showChart: false })
+    this.inversion()
+    //this.setState({ showChart: false })
   }
 
   handleSubmit = async (event) => {
     await event.preventDefault();
-    this.setState({ showChart: true })
+    //this.setState({ showChart: true })
     this.inversion()
   }
 
@@ -106,10 +105,10 @@ class Form extends React.Component {
     const chart = this.state.showChart ? <div>
       <div className="row justify-content-center">
         <div className="col-md-3">
-          <p>Dias(Meses) para generar {this.state.cantidadConsultar} pesos: {this.state.labelCantidadConsultada}</p>
+          <h6>Dias(Meses) para generar {this.state.cantidadConsultar} pesos: <strong>{this.state.labelCantidadConsultada}</strong></h6>
         </div>
         <div className="col-md-3">
-          <p>Dias para generar un centavo: {this.state.labelGenerarCentavo}</p>
+          <h6>Dias para generar un centavo extra de ganancia: <strong>{this.state.labelGenerarCentavo}</strong></h6>
         </div>
       </div>
       <Charts datos={this.state.datos} meses={this.state.meses} inicial={this.state.inicial} ingresoExtraMensual={this.state.ingresoExtraMes} />

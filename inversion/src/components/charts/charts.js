@@ -42,6 +42,8 @@ class Charts extends Component {
                             beginAtZero: true
                         }
                     }]
+                }, tooltips: {
+                    mode: 'x'
                 }
             }
         });
