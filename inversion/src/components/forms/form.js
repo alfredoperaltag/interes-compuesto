@@ -24,7 +24,7 @@ class Form extends React.Component {
     }
   }
 
-  handleInputChange(event) {
+  handleInputChange = async (event) => {
     const target = event.target
     const id = target.id
     this.setState({
@@ -80,25 +80,25 @@ class Form extends React.Component {
         meses.push("mes " + numeroMes)
         dineroTotal += ingresoExtraMensual
         ingresoExtraMes.push(dineroTotal)
-        this.setState({
-          datos,
-          inicial,
-          meses,
-          ingresoExtraMes
-        })
         diaDelMes = 0
       } else {
         diaDelMes++
       }
       if (gananciaDia.toFixed(1) > gananciaActual.toFixed(1) && diasGenerarCentavo === 0) {
         diasGenerarCentavo = index
-        this.setState({ labelGenerarCentavo: diasGenerarCentavo })
       }
       if (gananciasTotales >= cantidadAConsultarPesos && diasGenerarCantidad === 0) {
         diasGenerarCantidad = index
-        this.setState({ labelCantidadConsultada: diasGenerarCantidad })
       }
     }
+    this.setState({
+      datos,
+      inicial,
+      meses,
+      ingresoExtraMes,
+      labelGenerarCentavo: diasGenerarCentavo,
+      labelCantidadConsultada: diasGenerarCantidad
+    })
   }
 
   render() {
