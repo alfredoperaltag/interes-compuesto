@@ -19,24 +19,20 @@ class Form extends React.Component {
       ingresoExtraMes: [],
       labelCantidadConsultada: "",
       labelGenerarCentavo: "",
-      //showChart: false
-      showChart: true
     }
   }
 
   handleInputChange = async (event) => {
     const target = event.target
     const id = target.id
-    this.setState({
+    await this.setState({
       [id]: target.value
     })
     this.inversion()
-    //this.setState({ showChart: false })
   }
 
   handleSubmit = async (event) => {
     await event.preventDefault();
-    //this.setState({ showChart: true })
     this.inversion()
   }
 
@@ -102,17 +98,7 @@ class Form extends React.Component {
   }
 
   render() {
-    const chart = this.state.showChart ? <div>
-      <div className="row justify-content-center">
-        <div className="col-md-3">
-          <h6>Dias(Meses) para generar {this.state.cantidadConsultar} pesos: <strong>{this.state.labelCantidadConsultada}</strong></h6>
-        </div>
-        <div className="col-md-3">
-          <h6>Dias para generar un centavo extra de ganancia: <strong>{this.state.labelGenerarCentavo}</strong></h6>
-        </div>
-      </div>
-      <Charts datos={this.state.datos} meses={this.state.meses} inicial={this.state.inicial} ingresoExtraMensual={this.state.ingresoExtraMes} />
-    </div> : null
+
 
     return <form onSubmit={this.handleSubmit}>
       <div className="row">
@@ -134,7 +120,17 @@ class Form extends React.Component {
           <button type="submit" className="col-sm-3 col-md-5 btn btn-primary float-left mt-4">Aceptar</button>
         </div>
       </div>
-      {chart}
+      <div>
+        <div className="row justify-content-center">
+          <div className="col-md-3">
+            <h6>Dias(Meses) para generar {this.state.cantidadConsultar} pesos: <strong>{this.state.labelCantidadConsultada}</strong></h6>
+          </div>
+          <div className="col-md-3">
+            <h6>Dias para generar un centavo extra de ganancia: <strong>{this.state.labelGenerarCentavo}</strong></h6>
+          </div>
+        </div>
+        <Charts datos={this.state.datos} meses={this.state.meses} inicial={this.state.inicial} ingresoExtraMensual={this.state.ingresoExtraMes} />
+      </div>
     </form>
   }
 }
