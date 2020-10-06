@@ -11,13 +11,13 @@ class ChartForm extends Component {
         cantidadConsultar: 50
     }
 
-    handleInputChange = (event) => {
+    handleInputChange = async (event) => {
         const target = event.target
         const id = target.id
-        this.setState({
+        await this.setState({
             [id]: target.value
         })
-        //this.props.inversion(this.state)
+        this.props.inversion(this.state)
     }
 
     handleSubmit = (event) => {
