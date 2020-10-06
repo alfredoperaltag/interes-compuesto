@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import Chart from 'chart.js'
 
+let myChart
+
 class Charts extends Component {
     chartRef = React.createRef();
 
     componentDidUpdate() {
         const ctx = this.chartRef.current.getContext("2d");
-        new Chart(ctx, {
+        if (typeof myChart !== "undefined") myChart.destroy()
+        myChart = new Chart(ctx, {
             type: "line",
             data: {
                 //Bring in data
@@ -34,7 +37,7 @@ class Charts extends Component {
                         borderWidth: 2,
                     }
                 ]
-            },
+            }/* ,
             options: {
                 scales: {
                     yAxes: [{
@@ -45,7 +48,7 @@ class Charts extends Component {
                 }, tooltips: {
                     mode: 'x'
                 }
-            }
+            } */
         });
     }
     render() {
