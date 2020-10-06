@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Form from './components/forms/form'
+import Dashboard from './components/Dashboard/dashboard'
 
 function App() {
   return (
     <div className="App container-fluid">
-      <Form />
+      <Dashboard />
     </div>
   );
 }
