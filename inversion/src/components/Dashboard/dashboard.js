@@ -20,11 +20,11 @@ class Dashboard extends React.Component {
     inversion = formState => {
         let calendario = moment(formState.calendario)
         let days = calendario.diff(moment(), 'days')
-        let total = parseInt(formState.dineroInicial)
+        let dineroInicialInput = parseInt(formState.dineroInicial)
         let porcentaje = parseInt(formState.porcentaje)
         let ingresoExtraMensual = parseInt(formState.ingresoExtraMensual)
         let cantidadAConsultarPesos = parseInt(formState.cantidadConsultar)
-        let dineroInicial = total
+        let dineroInicial = dineroInicialInput
         let gananciaDia = 0
         let gananciasTotales = 0
         let diaDelMes = 1
@@ -36,23 +36,23 @@ class Dashboard extends React.Component {
         let meses = []
         let inicial = []
         let ingresoExtraMes = []
-        let dineroTotal = total
+        let dineroTotal = dineroInicialInput
         //let resultado = []
 
         for (let index = 0; index <= days; index++) {
-            gananciaDia = (((total * porcentaje) / 100) / 365)
+            gananciaDia = (((dineroInicialInput * porcentaje) / 100) / 365)
             if (index === 0) {
                 gananciaActual = gananciaDia
             }
             if (index !== 0) {
-                total = total + gananciaDia
+                dineroInicialInput = dineroInicialInput + gananciaDia
             }
             gananciasTotales += gananciaDia
             if (diaDelMes === 30) {
-                total += ingresoExtraMensual
-                //resultado.push({ total, gananciaDia, porcentaje, gananciasTotales, ingresoExtraMensual })
+                dineroInicialInput += ingresoExtraMensual
+                //resultado.push({ dineroInicialInput, gananciaDia, porcentaje, gananciasTotales, ingresoExtraMensual })
                 numeroMes++
-                interesCompuesto.push(total)
+                interesCompuesto.push(dineroInicialInput)
                 inicial.push(dineroInicial)
                 meses.push("mes " + numeroMes)
                 dineroTotal += ingresoExtraMensual
