@@ -7,9 +7,9 @@ class Dashboard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            datos: [],
+            interesCompuesto: [],
             meses: [],
-            inicial: [],
+            dineroInicial: [],
             ingresoExtraMes: [],
             labelCantidadConsultada: "",
             labelGenerarCentavo: "",
@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
     inversion = formState => {
         let calendario = moment(formState.calendario)
         let days = calendario.diff(moment(), 'days')
-        let total = parseInt(formState.total)
+        let total = parseInt(formState.dineroInicial)
         let porcentaje = parseInt(formState.porcentaje)
         let ingresoExtraMensual = parseInt(formState.ingresoExtraMensual)
         let cantidadAConsultarPesos = parseInt(formState.cantidadConsultar)
@@ -32,7 +32,7 @@ class Dashboard extends React.Component {
         let diasGenerarCantidad = 0
         let gananciaActual = 0
         let numeroMes = 0
-        let datos = []
+        let interesCompuesto = []
         let meses = []
         let inicial = []
         let ingresoExtraMes = []
@@ -52,7 +52,7 @@ class Dashboard extends React.Component {
                 total += ingresoExtraMensual
                 //resultado.push({ total, gananciaDia, porcentaje, gananciasTotales, ingresoExtraMensual })
                 numeroMes++
-                datos.push(total)
+                interesCompuesto.push(total)
                 inicial.push(dineroInicial)
                 meses.push("mes " + numeroMes)
                 dineroTotal += ingresoExtraMensual
@@ -69,8 +69,8 @@ class Dashboard extends React.Component {
             }
         }
         this.setState({
-            datos,
-            inicial,
+            interesCompuesto,
+            dineroInicial: inicial,
             meses,
             ingresoExtraMes,
             labelGenerarCentavo: diasGenerarCentavo,
@@ -91,9 +91,9 @@ class Dashboard extends React.Component {
                 </div>
             </div>
             <Charts
-                datos={this.state.datos}
+                interesCompuesto={this.state.interesCompuesto}
                 meses={this.state.meses}
-                inicial={this.state.inicial}
+                dineroInicial={this.state.dineroInicial}
                 ingresoExtraMensual={this.state.ingresoExtraMes}
             />
         </div>
