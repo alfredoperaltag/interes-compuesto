@@ -7,10 +7,10 @@ class Dashboard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            interesCompuesto: [],
             meses: [],
-            dineroInicial: [],
-            ingresoExtraMes: [],
+            dinerosIniciales: [],
+            ingresosExtrasMensuales: [],
+            interesesCompuestos: [],
             labelCantidadConsultada: "",
             labelGenerarCentavo: "",
             cantidadConsultar: ""
@@ -20,59 +20,59 @@ class Dashboard extends React.Component {
     inversion = formState => {
         let calendario = moment(formState.calendario)
         let days = calendario.diff(moment(), 'days')
-        let dineroInicialInput = parseInt(formState.dineroInicial)
+        let dineroInicial = parseInt(formState.dineroInicial)
         let porcentaje = parseInt(formState.porcentaje)
         let ingresoExtraMensual = parseInt(formState.ingresoExtraMensual)
-        let cantidadAConsultarPesos = parseInt(formState.cantidadConsultar)
-        let dineroInicial = dineroInicialInput
+        let cantidadConsultar = parseInt(formState.cantidadConsultar)
+        let dineroInicialInput = dineroInicial
         let gananciaDia = 0
+        let gananciaActual = 0
         let gananciasTotales = 0
         let diaDelMes = 1
         let diasGenerarCentavo = 0
         let diasGenerarCantidad = 0
-        let gananciaActual = 0
         let numeroMes = 0
-        let interesCompuesto = []
+        let interesesCompuestos = []
         let meses = []
-        let inicial = []
-        let ingresoExtraMes = []
-        let dineroTotal = dineroInicialInput
+        let dinerosIniciales = []
+        let ingresosExtrasMensuales = []
+        let dineroTotal = dineroInicial
         //let resultado = []
 
-        for (let index = 0; index <= days; index++) {
-            gananciaDia = (((dineroInicialInput * porcentaje) / 100) / 365)
-            if (index === 0) {
+        for (let day = 0; day <= days; day++) {
+            gananciaDia = (((dineroInicial * porcentaje) / 100) / 365)
+            if (day === 0) {
                 gananciaActual = gananciaDia
-            }
-            if (index !== 0) {
-                dineroInicialInput = dineroInicialInput + gananciaDia
+            } else {
+                //if (day !== 0) {
+                dineroInicial += gananciaDia
             }
             gananciasTotales += gananciaDia
             if (diaDelMes === 30) {
-                dineroInicialInput += ingresoExtraMensual
-                //resultado.push({ dineroInicialInput, gananciaDia, porcentaje, gananciasTotales, ingresoExtraMensual })
+                dineroInicial += ingresoExtraMensual
+                //resultado.push({ dineroInicial, gananciaDia, porcentaje, gananciasTotales, ingresoExtraMensual })
                 numeroMes++
-                interesCompuesto.push(dineroInicialInput)
-                inicial.push(dineroInicial)
+                interesesCompuestos.push(dineroInicial)
+                dinerosIniciales.push(dineroInicialInput)
                 meses.push("mes " + numeroMes)
                 dineroTotal += ingresoExtraMensual
-                ingresoExtraMes.push(dineroTotal)
+                ingresosExtrasMensuales.push(dineroTotal)
                 diaDelMes = 0
             } else {
                 diaDelMes++
             }
             if (gananciaDia.toFixed(1) > gananciaActual.toFixed(1) && diasGenerarCentavo === 0) {
-                diasGenerarCentavo = index
+                diasGenerarCentavo = day
             }
-            if (gananciasTotales >= cantidadAConsultarPesos && diasGenerarCantidad === 0) {
-                diasGenerarCantidad = index
+            if (gananciasTotales >= cantidadConsultar && diasGenerarCantidad === 0) {
+                diasGenerarCantidad = day
             }
         }
         this.setState({
-            interesCompuesto,
-            dineroInicial: inicial,
+            interesesCompuestos,
+            dinerosIniciales,
             meses,
-            ingresoExtraMes,
+            ingresosExtrasMensuales,
             labelGenerarCentavo: diasGenerarCentavo,
             labelCantidadConsultada: diasGenerarCantidad,
             cantidadConsultar: formState.cantidadConsultar
@@ -91,10 +91,10 @@ class Dashboard extends React.Component {
                 </div>
             </div>
             <Charts
-                interesCompuesto={this.state.interesCompuesto}
+                interesesCompuestos={this.state.interesesCompuestos}
                 meses={this.state.meses}
-                dineroInicial={this.state.dineroInicial}
-                ingresoExtraMensual={this.state.ingresoExtraMes}
+                dinerosIniciales={this.state.dinerosIniciales}
+                ingresosExtrasMensuales={this.state.ingresosExtrasMensuales}
             />
         </div>
     }

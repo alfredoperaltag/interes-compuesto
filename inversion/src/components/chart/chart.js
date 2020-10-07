@@ -17,21 +17,21 @@ class Charts extends Component {
                 datasets: [
                     {
                         label: "Interes Compuesto",
-                        data: this.props.interesCompuesto,
+                        data: this.props.interesesCompuestos,
                         borderColor: 'green',
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2,
                     },
                     {
                         label: "Ingreso Extra Mensual",
-                        data: this.props.ingresoExtraMensual,
+                        data: this.props.ingresosExtrasMensuales,
                         borderColor: 'blue',
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2
                     },
                     {
                         label: "Dinero inicial",
-                        data: this.props.dineroInicial,
+                        data: this.props.dinerosIniciales,
                         borderColor: 'black',
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2
