@@ -69,7 +69,7 @@ class Dashboard extends React.Component {
                 dineroTotal += ingresoExtraMensual
                 ingresosExtrasMensuales.push(dineroTotal)
                 dineroInicial += ingresoExtraMensual
-                interesesCompuestos.push(dineroInicial)
+                interesesCompuestos.push(dineroInicial.toFixed(2))
                 diaDelMes = 0
             } else {
                 diaDelMes++
