@@ -25,48 +25,56 @@ class Dashboard extends React.Component {
         let ingresoExtraMensual = parseInt(formState.ingresoExtraMensual)
         let cantidadConsultar = parseInt(formState.cantidadConsultar)
         let dineroInicialInput = dineroInicial
+        let dineroTotal = dineroInicial
         let gananciaDia = 0
         let gananciaActual = 0
         let gananciasTotales = 0
-        let diaDelMes = 1
         let diasGenerarCentavo = 0
         let diasGenerarCantidad = 0
+        let diaDelMes = 1
         let numeroMes = 0
-        let interesesCompuestos = []
         let meses = []
         let dinerosIniciales = []
         let ingresosExtrasMensuales = []
-        let dineroTotal = dineroInicial
+        let interesesCompuestos = []
+
         //let resultado = []
 
         for (let day = 0; day <= days; day++) {
             gananciaDia = (((dineroInicial * porcentaje) / 100) / 365)
             if (day === 0) {
                 gananciaActual = gananciaDia
+
+                meses.push("Inicial")
+                dinerosIniciales.push(dineroInicialInput)
+                ingresosExtrasMensuales.push(dineroTotal)
+                interesesCompuestos.push(dineroInicial)
             } else {
                 //if (day !== 0) {
                 dineroInicial += gananciaDia
             }
             gananciasTotales += gananciaDia
-            if (diaDelMes === 30) {
-                dineroInicial += ingresoExtraMensual
-                //resultado.push({ dineroInicial, gananciaDia, porcentaje, gananciasTotales, ingresoExtraMensual })
-                numeroMes++
-                interesesCompuestos.push(dineroInicial)
-                dinerosIniciales.push(dineroInicialInput)
-                meses.push("mes " + numeroMes)
-                dineroTotal += ingresoExtraMensual
-                ingresosExtrasMensuales.push(dineroTotal)
-                diaDelMes = 0
-            } else {
-                diaDelMes++
-            }
             if (gananciaDia.toFixed(1) > gananciaActual.toFixed(1) && diasGenerarCentavo === 0) {
                 diasGenerarCentavo = day
             }
             if (gananciasTotales >= cantidadConsultar && diasGenerarCantidad === 0) {
                 diasGenerarCantidad = day
             }
+
+            if (diaDelMes === 30) {
+                //resultado.push({ dineroInicial, gananciaDia, porcentaje, gananciasTotales, ingresoExtraMensual })
+                numeroMes++
+                meses.push("Mes " + numeroMes)
+                dinerosIniciales.push(dineroInicialInput)
+                dineroTotal += ingresoExtraMensual
+                ingresosExtrasMensuales.push(dineroTotal)
+                dineroInicial += ingresoExtraMensual
+                interesesCompuestos.push(dineroInicial)
+                diaDelMes = 0
+            } else {
+                diaDelMes++
+            }
+
         }
         this.setState({
             interesesCompuestos,
