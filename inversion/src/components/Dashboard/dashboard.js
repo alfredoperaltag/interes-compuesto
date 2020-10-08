@@ -22,10 +22,10 @@ class Dashboard extends React.Component {
     inversion = formState => {
         let calendario = moment(formState.calendario)
         let days = calendario.diff(moment(), 'days')
-        let dineroInicial = parseInt(formState.dineroInicial)
-        let porcentaje = parseInt(formState.porcentaje)
-        let ingresoExtraMensual = parseInt(formState.ingresoExtraMensual)
-        let cantidadConsultar = parseInt(formState.cantidadConsultar)
+        let dineroInicial = parseFloat(formState.dineroInicial)
+        let porcentaje = parseFloat(formState.porcentaje)
+        let ingresoExtraMensual = parseFloat(formState.ingresoExtraMensual)
+        let cantidadConsultar = parseFloat(formState.cantidadConsultar)
         let dineroInicialInput = dineroInicial
         let dineroTotal = dineroInicial
         let gananciaDia = 0
@@ -48,9 +48,9 @@ class Dashboard extends React.Component {
                 gananciaActual = gananciaDia
 
                 meses.push("Inicial")
-                dinerosIniciales.push(dineroInicialInput)
-                ingresosExtrasMensuales.push(dineroTotal)
-                interesesCompuestos.push(dineroInicial)
+                dinerosIniciales.push(dineroInicialInput.toFixed(2))
+                ingresosExtrasMensuales.push(dineroTotal.toFixed(2))
+                interesesCompuestos.push(dineroInicial.toFixed(2))
             } else {
                 //if (day !== 0) {
                 dineroInicial += gananciaDia
@@ -67,9 +67,9 @@ class Dashboard extends React.Component {
                 //resultado.push({ dineroInicial, gananciaDia, porcentaje, gananciasTotales, ingresoExtraMensual })
                 numeroMes++
                 meses.push("Mes " + numeroMes)
-                dinerosIniciales.push(dineroInicialInput)
+                dinerosIniciales.push(dineroInicialInput.toFixed(2))
                 dineroTotal += ingresoExtraMensual
-                ingresosExtrasMensuales.push(dineroTotal)
+                ingresosExtrasMensuales.push(dineroTotal.toFixed(2))
                 dineroInicial += ingresoExtraMensual
                 interesesCompuestos.push(dineroInicial.toFixed(2))
                 diaDelMes = 0
