@@ -3,6 +3,8 @@ import Charts from '../chart/chart'
 import moment from 'moment'
 import ChartForm from '../chartForm/chartForm'
 
+import data from '../../sample/data.json'
+
 class Dashboard extends React.Component {
     constructor(props) {
         super(props)
@@ -103,6 +105,12 @@ class Dashboard extends React.Component {
                 meses={this.state.meses}
                 dinerosIniciales={this.state.dinerosIniciales}
                 ingresosExtrasMensuales={this.state.ingresosExtrasMensuales}
+            />
+            <h2>Datos Propios Reales</h2>
+            <Charts
+                meses={data.meses}
+                ingresosExtrasMensuales={data.ingresosExtrasMensuales}
+                interesesCompuestos={data.interesesCompuestos}
             />
         </div>
     }

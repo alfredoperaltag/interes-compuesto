@@ -10,7 +10,9 @@ const Input = props => {
         id={props.id}
         min={props.min}
         value={props.value}
-        onChange={props.onChange} />
+        onChange={props.onChange}
+        step={props.step}
+      />
     </div>
   }
   return <div className="form-group">

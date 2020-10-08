@@ -1,0 +1,17 @@
+{
+    "meses": [
+        "inicial",
+        "Mes 1",
+        "Mes 2"
+    ],
+    "ingresosExtrasMensuales": [
+        0,
+        6056.55,
+        7114.55
+    ],
+    "interesesCompuestos": [
+        0,
+        6056.55,
+        7146.39
+    ]
+}

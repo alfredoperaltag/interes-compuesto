@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import Chart from 'chart.js'
 
-let myChart
+//let myChart
 
 class Charts extends Component {
     chartRef = React.createRef();
 
     componentDidUpdate() {
         const ctx = this.chartRef.current.getContext("2d");
-        if (typeof myChart !== "undefined") myChart.destroy()
-        myChart = new Chart(ctx, {
+        if (typeof this.myChart !== "undefined") this.myChart.destroy()
+        this.myChart = new Chart(ctx, {
             type: "line",
             data: {
                 //Bring in data

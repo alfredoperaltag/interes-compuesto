@@ -5,7 +5,7 @@ import Input from './inputs/input'
 class ChartForm extends Component {
     state = {
         calendario: "2022-07-10",
-        dineroInicial: 8369,
+        dineroInicial: 7114.55,
         porcentaje: 6,
         ingresoExtraMensual: 1874,
         cantidadConsultar: 50
@@ -36,14 +36,14 @@ class ChartForm extends Component {
                 <div className="row justify-content-center">
                     <div className="col-sm-12 col-md-3">
                         <Input type="date" id="calendario" value={this.state.calendario} onChange={this.handleInputChange}>Fecha limite: </Input>
-                        <Input type="number" min="0" id="dineroInicial" value={this.state.dineroInicial} onChange={this.handleInputChange}>Dinero Inicial: </Input>
+                        <Input type="number" min="0" step="0.01" id="dineroInicial" value={this.state.dineroInicial} onChange={this.handleInputChange}>Dinero Inicial: </Input>
                     </div>
                     <div className="col-sm-12 col-md-3">
-                        <Input type="number" min="0" id="porcentaje" value={this.state.porcentaje} onChange={this.handleInputChange}>Porcentaje: </Input>
-                        <Input type="number" min="0" id="ingresoExtraMensual" value={this.state.ingresoExtraMensual} onChange={this.handleInputChange}>Ingreso extra mensual: </Input>
+                        <Input type="number" min="0" step="0.01" id="porcentaje" value={this.state.porcentaje} onChange={this.handleInputChange}>Porcentaje: </Input>
+                        <Input type="number" min="0" step="0.01" id="ingresoExtraMensual" value={this.state.ingresoExtraMensual} onChange={this.handleInputChange}>Ingreso extra mensual: </Input>
                     </div>
                     <div className="col-sm-12 col-md-3">
-                        <Input type="number" min="0" id="cantidadConsultar" value={this.state.cantidadConsultar} onChange={this.handleInputChange}>Cantidad a consultar: </Input>
+                        <Input type="number" min="0" step="0.01" id="cantidadConsultar" value={this.state.cantidadConsultar} onChange={this.handleInputChange}>Cantidad a consultar: </Input>
                         <button type="submit" className="col-sm-3 col-md-5 btn btn-primary float-left mt-4">Aceptar</button>
                     </div>
                 </div>
