@@ -16,7 +16,8 @@ class Dashboard extends React.Component {
             interesesCompuestos: [],
             labelCantidadConsultada: "",
             labelGenerarCentavo: "",
-            cantidadConsultar: ""
+            cantidadConsultar: "",
+            data: data
         }
     }
 
@@ -90,6 +91,17 @@ class Dashboard extends React.Component {
         })
     }
 
+    getDataChart = formState => {
+        this.setState({
+            data: {
+                meses:
+                    [...this.state.data.meses, this.state.data.meses.length],
+                ingresosExtrasMensuales: [...this.state.data.ingresosExtrasMensuales, formState.dineroTotal],
+                interesesCompuestos: [...this.state.data.interesesCompuestos, formState.dineroTotalIntereses]
+            }
+        })
+    }
+
     render() {
         return <div>
             <ChartForm inversion={this.inversion} />
@@ -108,11 +120,11 @@ class Dashboard extends React.Component {
                 ingresosExtrasMensuales={this.state.ingresosExtrasMensuales}
             />
             <h2>Datos Propios Reales</h2>
-            <ChartFormPropio />
+            <ChartFormPropio getDataChart={this.getDataChart} />
             <Charts
-                meses={data.meses}
-                ingresosExtrasMensuales={data.ingresosExtrasMensuales}
-                interesesCompuestos={data.interesesCompuestos}
+                meses={this.state.data.meses}
+                ingresosExtrasMensuales={this.state.data.ingresosExtrasMensuales}
+                interesesCompuestos={this.state.data.interesesCompuestos}
             />
         </div>
     }
