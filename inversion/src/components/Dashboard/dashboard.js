@@ -32,8 +32,8 @@ class Dashboard extends React.Component {
                     dinerosIniciales: response.dinerosIniciales,
                     meses: response.meses,
                     ingresosExtrasMensuales: response.ingresosExtrasMensuales,
-                    labelGenerarCentavo: response.diasGenerarCentavo,
-                    labelCantidadConsultada: response.diasGenerarCantidad,
+                    labelGenerarCentavo: response.labelGenerarCentavo,
+                    labelCantidadConsultada: response.labelCantidadConsultada,
                     cantidadConsultar: response.cantidadConsultar
                 })
             });
