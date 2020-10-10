@@ -18,7 +18,18 @@ class Dashboard extends React.Component {
         }
     }
 
-    inversion = formState => {
+    inversion = async formState => {
+        await fetch('http://localhost:5000', {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(formState), // data can be `string` or {object}!
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => console.log('Success:', response));
+
+
         let calendario = moment(formState.calendario)
         let days = calendario.diff(moment(), 'days')
         let dineroInicial = parseFloat(formState.dineroInicial)
