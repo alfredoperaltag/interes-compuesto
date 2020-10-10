@@ -2,9 +2,7 @@ import React from 'react'
 import Charts from '../chart/chart'
 import moment from 'moment'
 import ChartForm from '../chartForm/chartForm'
-import ChartFormPropio from '../chartFormPropio/ChartFormPropio'
-
-import data from '../../sample/data.json'
+import DashboardReal from '../Dashboard/DashboardReal'
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -16,8 +14,7 @@ class Dashboard extends React.Component {
             interesesCompuestos: [],
             labelCantidadConsultada: "",
             labelGenerarCentavo: "",
-            cantidadConsultar: "",
-            data: data
+            cantidadConsultar: ""
         }
     }
 
@@ -41,7 +38,6 @@ class Dashboard extends React.Component {
         let dinerosIniciales = []
         let ingresosExtrasMensuales = []
         let interesesCompuestos = []
-
         //let resultado = []
 
         for (let day = 0; day <= days; day++) {
@@ -91,17 +87,6 @@ class Dashboard extends React.Component {
         })
     }
 
-    getDataChart = formState => {
-        this.setState({
-            data: {
-                meses:
-                    [...this.state.data.meses, this.state.data.meses.length],
-                ingresosExtrasMensuales: [...this.state.data.ingresosExtrasMensuales, formState.dineroTotal],
-                interesesCompuestos: [...this.state.data.interesesCompuestos, formState.dineroTotalIntereses]
-            }
-        })
-    }
-
     render() {
         return <div>
             <ChartForm inversion={this.inversion} />
@@ -119,13 +104,7 @@ class Dashboard extends React.Component {
                 dinerosIniciales={this.state.dinerosIniciales}
                 ingresosExtrasMensuales={this.state.ingresosExtrasMensuales}
             />
-            <h2>Datos Propios Reales</h2>
-            <ChartFormPropio getDataChart={this.getDataChart} />
-            <Charts
-                meses={this.state.data.meses}
-                ingresosExtrasMensuales={this.state.data.ingresosExtrasMensuales}
-                interesesCompuestos={this.state.data.interesesCompuestos}
-            />
+            <DashboardReal />
         </div>
     }
 }
