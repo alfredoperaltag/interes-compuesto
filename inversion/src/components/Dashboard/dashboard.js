@@ -18,7 +18,8 @@ class Dashboard extends React.Component {
     }
 
     inversion = async formState => {
-        await fetch('http://localhost:5000', {
+        //await fetch('http://localhost:5000', {
+        await fetch('https://localhost:44381/api/inversion', {
             method: 'POST', // or 'PUT'
             body: JSON.stringify(formState), // data can be `string` or {object}!
             headers: {

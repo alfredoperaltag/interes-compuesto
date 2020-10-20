@@ -13,7 +13,7 @@ class ChartFormPropio extends Component {
         const target = event.target
         const id = target.id
         await this.setState({
-            [id]: target.value
+            [id]: parseInt(target.value)
         })
     }
 
