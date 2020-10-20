@@ -3,11 +3,32 @@ import React, { Component } from 'react'
 import ChartFormPropio from '../chartFormPropio/ChartFormPropio'
 import Charts from '../chart/chart'
 
-import data from '../../sample/data.json'
+//import data from '../../sample/data.json'
 
 class DashboardReal extends Component {
     state = {
-        data: data
+        data: {}
+    }
+
+    fetchData = async () => {
+        let meses = [], ingresosExtrasMensuales = [], interesesCompuestos = []
+        await fetch('https://localhost:44381/api/inversionPropiaItems', {
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                response.forEach(element => {
+                    meses.push(element.meses)
+                    ingresosExtrasMensuales.push(element.ingresosExtrasMensuales)
+                    interesesCompuestos.push(element.interesesCompuestos)
+                });
+                this.setState({
+                    data: {
+                        meses,
+                        ingresosExtrasMensuales,
+                        interesesCompuestos
+                    }
+                })
+            });
     }
 
     getDataChart = async formState => {
@@ -20,7 +41,7 @@ class DashboardReal extends Component {
             }
         })*/
         let data = {
-            meses: this.state.data.meses.length.toString(),
+            meses: "Mes " + this.state.data.meses.length.toString(),
             ingresosExtrasMensuales: formState.dineroTotal,
             interesesCompuestos: formState.dineroTotalIntereses
         }
@@ -34,9 +55,12 @@ class DashboardReal extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log(response);
-                
+                this.fetchData()
             });
+    }
+
+    async componentDidMount() {
+        await this.fetchData()
     }
 
     render() {
