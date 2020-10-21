@@ -20,7 +20,7 @@ class ChartFormPropio extends Component {
     render() {
         let botonAceptar = this.props.element ? <button type="submit" className="col-sm-3 col-md-5 btn btn-warning float-left mt-4">Editar</button> : <button type="submit" className="col-sm-3 col-md-5 btn btn-primary float-left mt-4">Agregar</button>
         return (
-            <Form method={() => this.props.getDataChart(this.state)} title="Interes Compuesto Propio">
+            <Form method={() => this.props.post(this.state)} title="Interes Compuesto Propio">
                 <div className="col-sm-12 col-md-3">
                     <Input type="number" min="0" step="0.001" id="dineroTotal" value={this.state.dineroTotal} onChange={this.handleInputChange}>Dinero Total: </Input>
                 </div>
@@ -31,7 +31,7 @@ class ChartFormPropio extends Component {
                     {botonAceptar}
                 </div>
                 <div className="col-sm-12 col-md-3">
-                    <button onClick={this.props.toogleForm} className="col-sm-3 col-md-5 btn btn-danger float-left mt-4">Cancelar</button>
+                    <button onClick={this.props.cancel} className="col-sm-3 col-md-5 btn btn-danger float-left mt-4">Cancelar</button>
                 </div>
             </Form>
         )

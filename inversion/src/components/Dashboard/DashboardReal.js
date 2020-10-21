@@ -15,7 +15,7 @@ class DashboardReal extends Component {
         element: null
     }
 
-    fetchData = async () => {
+    get = async () => {
         let meses = [], ingresosExtrasMensuales = [], interesesCompuestos = []
         await fetch('https://localhost:44381/api/inversionPropiaItems', {
         }).then(res => res.json())
@@ -37,7 +37,7 @@ class DashboardReal extends Component {
             });
     }
 
-    getDataChart = async formState => {
+    post = async formState => {
         /*await this.setState({
             dataChart: {
                 meses:
@@ -60,12 +60,12 @@ class DashboardReal extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                this.fetchData()
-                this.toogleForm(response)
+                this.get()
+                this.toogle()
             });
     }
 
-    putData = async formState => {
+    put = async formState => {
         let dataChart = {
             id: this.state.element.id,
             meses: this.state.element.meses,
@@ -81,47 +81,67 @@ class DashboardReal extends Component {
         }).then()
             .catch(error => console.error('Error:', error))
             .then(response => {
-                this.fetchData()
-                this.toogleForm(dataChart)
+                this.get()
+                this.toogle()
+                this.elementNull()
             });
     }
 
-    async componentDidMount() {
-        await this.fetchData()
-    }
-
-    edit = (element) => {
-        this.toogleForm(element)
-    }
     delete = async (id) => {
         await fetch('https://localhost:44381/api/inversionPropiaItems/' + id, {
             method: 'DELETE', // or 'PUT'
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                this.fetchData()
+                this.get()
             });
     }
-    toogleForm = (element) => {
-        if (element.id) {
-            this.setState({
-                element: element
-            })
-        } else {
-            this.setState({
-                element: null
-            })
-        }
+
+    async componentDidMount() {
+        await this.get()
+    }
+
+    edit = element => {
+        this.toogle()
+        this.setState({
+            element: element
+        })
+    }
+
+    cancel = () => {
+        this.toogle()
+        this.elementNull()
+    }
+
+    toogle = () => {
         this.setState({
             showChartFormPropio: !this.state.showChartFormPropio,
             showTable: !this.state.showTable
         })
     }
+
+    elementNull = () => this.setState({
+        element: null
+    })
+
     render() {
-        const method = this.state.element ? this.putData : this.getDataChart
-        const chartFormPropio = this.state.showChartFormPropio ? <ChartFormPropio getDataChart={method} toogleForm={this.toogleForm} element={this.state.element} />
-            : <button className="btn btn-primary" onClick={this.toogleForm}>Agregar Mes</button>
-        const table = this.state.showTable ? <Table data={this.state.data} edit={this.edit} delete={this.delete} /> : null
+        const method = this.state.element ? this.put : this.post
+        const chartFormPropio = this.state.showChartFormPropio ?
+            <ChartFormPropio
+                post={method}
+                cancel={this.cancel}
+                element={this.state.element}
+            /> :
+            <button
+                className="btn btn-primary"
+                onClick={this.toogle}>
+                Agregar Mes
+            </button>
+        const table = this.state.showTable ? <Table
+            data={this.state.data}
+            edit={this.edit}
+            delete={this.delete}
+        /> : null
         return (<div>
             <h2>Datos Propios Reales</h2>
             <Charts
