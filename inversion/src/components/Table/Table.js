@@ -4,14 +4,14 @@ class Table extends Component {
     state = ({
         showModal: false,
         showTable: true,
-        idDelete: null
+        element: null
     })
 
-    alert = (id) => {
+    alert = (element) => {
         this.setState({
             showModal: true,
             showTable: false,
-            idDelete: id
+            element: element
         })
     }
 
@@ -19,16 +19,16 @@ class Table extends Component {
         this.setState({
             showModal: false,
             showTable: true,
-            idDelete: null
+            element: null
         })
     }
 
     delete = () => {
-        this.props.delete(this.state.idDelete)
+        this.props.delete(this.state.element.id)
         this.setState({
             showModal: false,
             showTable: true,
-            idDelete: null
+            element: null
         })
     }
 
@@ -43,7 +43,7 @@ class Table extends Component {
                         </button>
                     </div>
                     <div className="modal-body">
-                        <p>¿Esta seguro de eliminar {this.state.idDelete}</p>
+                        <p>¿Esta seguro de eliminar {this.state.element.meses}?</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-danger" onClick={this.delete}>Eliminar</button>
@@ -69,9 +69,9 @@ class Table extends Component {
                         <th scope="row">{element.meses}</th>
                         <td>{element.ingresosExtrasMensuales}</td>
                         <td>{element.interesesCompuestos}</td>
-                        <td><button onClick={this.props.edit.bind(this, element.id)} className="btn btn-warning">Editar</button></td>
+                        <td><button onClick={this.props.edit.bind(this, element)} className="btn btn-warning">Editar</button></td>
                         {/* <td><button onClick={()=>this.props.delete(element.id)} className="btn btn-danger">Eliminar</button></td> */}
-                        <td><button onClick={() => this.alert(element.id)} className="btn btn-danger">Eliminar</button></td>
+                        <td><button onClick={() => this.alert(element)} className="btn btn-danger">Eliminar</button></td>
                     </tr>
                 )}
             </tbody>
