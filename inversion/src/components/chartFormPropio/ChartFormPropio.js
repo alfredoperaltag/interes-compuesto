@@ -5,15 +5,15 @@ import Input from '../chartForm/inputs/input'
 
 class ChartFormPropio extends Component {
     state = {
-        dineroTotal: this.props.element ? this.props.element.ingresosExtrasMensuales : undefined,
-        dineroTotalIntereses: this.props.element ? this.props.element.interesesCompuestos : undefined
+        dineroTotal: this.props.element ? this.props.element.ingresosExtrasMensuales : "",
+        dineroTotalIntereses: this.props.element ? this.props.element.interesesCompuestos : ""
     }
 
     handleInputChange = async (event) => {
         const target = event.target
         const id = target.id
         await this.setState({
-            [id]: parseInt(target.value)
+            [id]: target.value
         })
     }
 

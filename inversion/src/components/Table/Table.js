@@ -56,6 +56,7 @@ class Table extends Component {
         const table = this.state.showTable ? <table className="table">
             <thead className="thead-dark">
                 <tr>
+                    <th scope="col">Id</th>
                     <th scope="col">Mes</th>
                     <th scope="col">Ingreso Extra Mensual</th>
                     <th scope="col">Interes Compuesto</th>
@@ -66,6 +67,7 @@ class Table extends Component {
             <tbody>
                 {this.props.data.map(element =>
                     <tr key={element.id}>
+                        <td>{element.id}</td>
                         <th scope="row">{element.meses}</th>
                         <td>{element.ingresosExtrasMensuales}</td>
                         <td>{element.interesesCompuestos}</td>
