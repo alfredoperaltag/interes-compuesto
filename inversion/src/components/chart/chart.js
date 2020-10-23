@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Chart from 'chart.js'
+import Auxiliar from '../../Auxiliar/Auxiliar';
 
 //let myChart
 
@@ -97,12 +98,12 @@ class Charts extends Component {
         });
     }
     render() {
-        return <div>
+        return <Auxiliar>
             <canvas
                 id="myChart"
                 ref={this.chartRef}
             />
-        </div>
+        </Auxiliar>
     }
 }
 

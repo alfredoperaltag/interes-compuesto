@@ -18,7 +18,17 @@ class ChartFormPropio extends Component {
     }
 
     render() {
-        let botonAceptar = this.props.element ? <button type="submit" className="col-sm-3 col-md-5 btn btn-warning float-left mt-4">Editar</button> : <button type="submit" className="col-sm-3 col-md-5 btn btn-primary float-left mt-4">Agregar</button>
+        let boton = this.props.element ?
+            <button
+                type="submit"
+                className="col-sm-3 col-md-5 btn btn-warning float-left mt-4">
+                Editar
+            </button> :
+            <button
+                type="submit"
+                className="col-sm-3 col-md-5 btn btn-primary float-left mt-4">
+                Agregar
+            </button>
         return (
             <Form method={() => this.props.post(this.state)} title="Interes Compuesto Propio">
                 <div className="col-sm-12 col-md-3">
@@ -27,10 +37,10 @@ class ChartFormPropio extends Component {
                 <div className="col-sm-12 col-md-3">
                     <Input type="number" min="0" step="0.001" id="dineroTotalIntereses" value={this.state.dineroTotalIntereses} onChange={this.handleInputChange}>Dinero Total con Intereses: </Input>
                 </div>
-                <div className="col-sm-12 col-md-3">
-                    {botonAceptar}
+                <div className="col-sm-12 col-md-2">
+                    {boton}
                 </div>
-                <div className="col-sm-12 col-md-3">
+                <div className="col-sm-12 col-md-2">
                     <button onClick={this.props.cancel} className="col-sm-3 col-md-5 btn btn-danger float-left mt-4">Cancelar</button>
                 </div>
             </Form>

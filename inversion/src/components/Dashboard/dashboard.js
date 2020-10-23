@@ -1,7 +1,7 @@
 import React from 'react'
 import Charts from '../chart/chart'
 import ChartForm from '../chartForm/chartForm'
-import DashboardReal from '../Dashboard/DashboardReal'
+import Auxiliar from '../../Auxiliar/Auxiliar'
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        return <div>
+        return <Auxiliar>
             <ChartForm inversion={this.inversion} />
             <div className="row justify-content-center">
                 <div className="col-md-3">
@@ -57,8 +57,7 @@ class Dashboard extends React.Component {
                 dinerosIniciales={this.state.dinerosIniciales}
                 ingresosExtrasMensuales={this.state.ingresosExtrasMensuales}
             />
-            <DashboardReal />
-        </div>
+        </Auxiliar>
     }
 }
 
