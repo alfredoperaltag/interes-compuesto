@@ -8,7 +8,7 @@ class ChartFormPropio extends Component {
         if (this.props.element) {
             if (this.props.element.meses === "Inicial") {
                 this.setState({
-                    meses: 0
+                    meses: "0"
                 })
             } else {
                 this.setState({
