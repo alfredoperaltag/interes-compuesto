@@ -13,7 +13,8 @@ class DashboardReal extends Component {
         dataChart: {},
         showChartFormPropio: false,
         showTable: true,
-        element: null
+        element: null,
+        showInputMes: true
     }
 
     url = 'https://localhost:44381/api/inversionPropiaItems/'
@@ -47,6 +48,15 @@ class DashboardReal extends Component {
                         interesesCompuestos
                     }
                 })
+                if (!this.state.data[0]) {
+                    this.setState({
+                        showInputMes: false
+                    })
+                } else {
+                    this.setState({
+                        showInputMes: true
+                    })
+                }
             });
     }
 
@@ -59,12 +69,18 @@ class DashboardReal extends Component {
                 interesesCompuestos: [...this.state.dataChart.interesesCompuestos, formState.dineroTotalIntereses]
             }
         })*/
+        let meses = ""
+        if (this.state.showInputMes === false) {
+            meses = "Inicial"
+        } else {
+            meses = "Mes " + formState.meses
+        }
         let dataChart = {
-            meses: "Mes " + this.state.dataChart.meses.length.toString(),
+            //meses: "Mes " + this.state.dataChart.meses.length.toString(),
+            meses: meses,
             ingresosExtrasMensuales: parseFloat(formState.dineroTotal),
             interesesCompuestos: parseFloat(formState.dineroTotalIntereses)
         }
-
         await this.services(this.url, 'POST', dataChart)
             .then()
             .catch(error => console.error('Error:', error))
@@ -75,9 +91,15 @@ class DashboardReal extends Component {
     }
 
     put = async formState => {
+        let meses = ""
+        if (formState.meses === "0") {
+            meses = "Inicial"
+        } else {
+            meses = "Mes " + formState.meses
+        }
         let dataChart = {
             id: this.state.element.id,
-            meses: this.state.element.meses,
+            meses: meses,
             ingresosExtrasMensuales: parseFloat(formState.dineroTotal),
             interesesCompuestos: parseFloat(formState.dineroTotalIntereses)
         }
@@ -133,9 +155,10 @@ class DashboardReal extends Component {
         const method = this.state.element ? this.put : this.post
         const chartFormPropio = this.state.showChartFormPropio ?
             <ChartFormPropio
-                post={method}
+                method={method}
                 cancel={this.cancel}
                 element={this.state.element}
+                showInputMes={this.state.showInputMes}
             /> :
             <button
                 className="btn btn-primary"
