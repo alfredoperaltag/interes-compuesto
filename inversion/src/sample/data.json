@@ -2,16 +2,19 @@
     "meses": [
         "inicial",
         "Mes 1",
-        "Mes 2"
+        "Mes 2",
+        "Mes 3"
     ],
     "ingresosExtrasMensuales": [
         0,
         6056.55,
-        7114.55
+        7114.55,
+        8562.54
     ],
     "interesesCompuestos": [
         0,
         6056.55,
-        7146.39
+        7146.39,
+        8601.73
     ]
 }
