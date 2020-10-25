@@ -70,7 +70,7 @@ class DashboardReal extends Component {
             }
         })*/
         let meses = ""
-        if (this.state.showInputMes === false) {
+        if (this.state.showInputMes === false || formState.meses === "0") {
             meses = "Inicial"
         } else {
             meses = "Mes " + formState.meses
