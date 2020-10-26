@@ -6,9 +6,9 @@ import Input from './inputs/input'
 class ChartForm extends Component {
     state = {
         calendario: "2022-07-10",
-        dineroInicial: 7114.55,
-        porcentaje: 10.49,
-        ingresoExtraMensual: 1874,
+        dineroInicial: 0,
+        porcentaje: 5.369,
+        ingresoExtraMensual: 2854.18,
         cantidadConsultar: 50
     }
 

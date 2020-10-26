@@ -3,6 +3,8 @@ import Charts from '../chart/chart'
 import ChartForm from '../chartForm/chartForm'
 import Auxiliar from '../../Auxiliar/Auxiliar'
 
+import moment from 'moment'
+
 class Dashboard extends React.Component {
     constructor(props) {
         super(props)
@@ -18,10 +20,29 @@ class Dashboard extends React.Component {
     }
 
     inversion = async formState => {
+        let calendario = moment(formState.calendario)
+        let days = calendario.diff(moment(), 'days')
+        let data = {
+            days,
+            dineroInicial: parseFloat(formState.dineroInicial),
+            porcentaje: parseFloat(formState.porcentaje),
+            ingresoExtraMensual: parseFloat(formState.ingresoExtraMensual),
+            cantidadConsultar: parseInt(formState.cantidadConsultar)
+        }
+        const notNumber = (number) => {
+            if (isNaN(number)) {
+                return number = 0
+            }
+            return number
+        }
+        data.dineroInicial = await notNumber(data.dineroInicial)
+        data.porcentaje = await notNumber(data.porcentaje)
+        data.ingresoExtraMensual = await notNumber(data.ingresoExtraMensual)
+        data.cantidadConsultar = await notNumber(data.cantidadConsultar)
         //await fetch('http://localhost:5000', {
         await fetch('https://localhost:44381/api/inversion', {
             method: 'POST', // or 'PUT'
-            body: JSON.stringify(formState), // data can be `string` or {object}!
+            body: JSON.stringify(data), // data can be `string` or {object}!
             headers: {
                 'Content-Type': 'application/json'
             }
