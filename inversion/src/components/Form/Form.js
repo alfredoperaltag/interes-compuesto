@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class Form extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.method()
+        this.props.submit()
     }
 
     render() {

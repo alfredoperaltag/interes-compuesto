@@ -20,16 +20,6 @@ class DashboardReal extends Component {
 
     url = 'https://localhost:44381/api/inversionPropiaItems/'
 
-    /*services = async (url, method, dataChart) => {
-        await fetch(url, {
-            method: method, // or 'PUT'
-            body: JSON.stringify(dataChart), // data can be `string` or {object}!
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-    }*/
-
     get = async () => {
         let meses = [], ingresosExtrasMensuales = [], interesesCompuestos = []
         await fetch(this.url, {
@@ -61,27 +51,7 @@ class DashboardReal extends Component {
             });
     }
 
-    post = async formState => {
-        /*await this.setState({
-            dataChart: {
-                meses:
-                    [...this.state.dataChart.meses, this.state.dataChart.meses.length],
-                ingresosExtrasMensuales: [...this.state.dataChart.ingresosExtrasMensuales, formState.dineroTotal],
-                interesesCompuestos: [...this.state.dataChart.interesesCompuestos, formState.dineroTotalIntereses]
-            }
-        })*/
-        let meses = ""
-        if (this.state.showInputMes === false || formState.meses === "0") {
-            meses = "Inicial"
-        } else {
-            meses = "Mes " + formState.meses
-        }
-        let dataChart = {
-            //meses: "Mes " + this.state.dataChart.meses.length.toString(),
-            meses: meses,
-            ingresosExtrasMensuales: parseFloat(formState.dineroTotal),
-            interesesCompuestos: parseFloat(formState.dineroTotalIntereses)
-        }
+    post = async dataChart => {
         await services(this.url, 'POST', dataChart)
             .then()
             .catch(error => console.error('Error:', error))
@@ -91,20 +61,7 @@ class DashboardReal extends Component {
             });
     }
 
-    put = async formState => {
-        let meses = ""
-        if (formState.meses === "0") {
-            meses = "Inicial"
-        } else {
-            meses = "Mes " + formState.meses
-        }
-        let dataChart = {
-            id: this.state.element.id,
-            meses: meses,
-            ingresosExtrasMensuales: parseFloat(formState.dineroTotal),
-            interesesCompuestos: parseFloat(formState.dineroTotalIntereses)
-        }
-
+    put = async dataChart => {
         await services(this.url + this.state.element.id, 'PUT', dataChart)
             .then()
             .catch(error => console.error('Error:', error))
@@ -123,6 +80,23 @@ class DashboardReal extends Component {
             .then(response => {
                 this.get()
             });
+    }
+
+    submit = async formState => {
+        let meses = formState.meses === "0" ? "Inicial" : "Mes " + formState.meses
+        let dataChart = {
+            id: this.state.element ? this.state.element.id : undefined,
+            meses: meses,
+            ingresosExtrasMensuales: parseFloat(formState.dineroTotal),
+            interesesCompuestos: parseFloat(formState.dineroTotalIntereses)
+        }
+        if (this.state.element) {
+            console.log("put", dataChart);
+            await this.put(dataChart)
+        } else {
+            console.log("post", dataChart);
+            await this.post(dataChart)
+        }
     }
 
     async componentDidMount() {
@@ -153,10 +127,9 @@ class DashboardReal extends Component {
     })
 
     render() {
-        const method = this.state.element ? this.put : this.post
         const chartFormPropio = this.state.showChartFormPropio ?
             <ChartFormPropio
-                method={method}
+                submit={this.submit}
                 cancel={this.cancel}
                 element={this.state.element}
                 showInputMes={this.state.showInputMes}

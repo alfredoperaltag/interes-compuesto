@@ -18,12 +18,12 @@ class ChartForm extends Component {
         await this.setState({
             [id]: target.value
         })
-        this.props.inversion(this.state)
+        this.props.post(this.state)
     }
 
     render() {
         return (
-            <Form method={() => this.props.inversion(this.state)} title="Interes Compuesto">
+            <Form submit={() => this.props.post(this.state)} title="Interes Compuesto">
                 <div className="col-sm-12 col-md-3">
                     <Input type="date" id="calendario" value={this.state.calendario} onChange={this.handleInputChange}>Fecha limite: </Input>
                     <Input type="number" min="0" step="0.001" id="dineroInicial" value={this.state.dineroInicial} onChange={this.handleInputChange}>Dinero Inicial: </Input>

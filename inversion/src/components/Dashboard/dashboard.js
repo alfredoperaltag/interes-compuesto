@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
         }
     }
 
-    inversion = async formState => {
+    post = async formState => {
         let calendario = moment(formState.calendario)
         let days = calendario.diff(moment(), 'days')
         let data = {
@@ -41,25 +41,6 @@ class Dashboard extends React.Component {
         data.ingresoExtraMensual = await notNumber(data.ingresoExtraMensual)
         data.cantidadConsultar = await notNumber(data.cantidadConsultar)
         //await fetch('http://localhost:5000', {
-        /*await fetch('https://localhost:44381/api/inversion', {
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify(data), // data can be `string` or {object}!
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => {
-                this.setState({
-                    interesesCompuestos: response.interesesCompuestos,
-                    dinerosIniciales: response.dinerosIniciales,
-                    meses: response.meses,
-                    ingresosExtrasMensuales: response.ingresosExtrasMensuales,
-                    labelGenerarCentavo: response.labelGenerarCentavo,
-                    labelCantidadConsultada: response.labelCantidadConsultada,
-                    cantidadConsultar: response.cantidadConsultar
-                })
-            });*/
         await services('https://localhost:44381/api/inversion', 'POST', data)
             .then(res => res.json())
             .catch(error => console.error('Error:', error))
@@ -78,7 +59,7 @@ class Dashboard extends React.Component {
 
     render() {
         return <Auxiliar>
-            <ChartForm inversion={this.inversion} />
+            <ChartForm post={this.post} />
             <div className="row justify-content-center">
                 <div className="col-md-3">
                     <h6>Dias(Meses) para generar {this.state.cantidadConsultar} pesos: <strong>{this.state.labelCantidadConsultada}</strong></h6>

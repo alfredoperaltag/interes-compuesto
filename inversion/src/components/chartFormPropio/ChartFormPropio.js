@@ -48,7 +48,7 @@ class ChartFormPropio extends Component {
             <Input type="number" min="0" id="meses" value={this.state.meses} onChange={this.handleInputChange}>Mes: </Input>
         </div> : null
         return (
-            <Form method={() => this.props.method(this.state)} title="Interes Compuesto Propio">
+            <Form submit={() => this.props.submit(this.state)} title="Interes Compuesto Propio">
                 {numero}
                 <div className="col-sm-12 col-md-2">
                     <Input type="number" min="0" step="0.001" id="dineroTotal" value={this.state.dineroTotal} onChange={this.handleInputChange}>Dinero Total: </Input>
