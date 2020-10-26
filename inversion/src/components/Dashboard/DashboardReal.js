@@ -4,6 +4,7 @@ import ChartFormPropio from '../chartFormPropio/ChartFormPropio'
 import Charts from '../chart/chart'
 import Table from '../Table/Table'
 import Auxiliar from '../../Auxiliar/Auxiliar'
+import services from '../../services/services'
 
 //import data from '../../sample/data.json'
 
@@ -19,7 +20,7 @@ class DashboardReal extends Component {
 
     url = 'https://localhost:44381/api/inversionPropiaItems/'
 
-    services = async (url, method, dataChart) => {
+    /*services = async (url, method, dataChart) => {
         await fetch(url, {
             method: method, // or 'PUT'
             body: JSON.stringify(dataChart), // data can be `string` or {object}!
@@ -27,7 +28,7 @@ class DashboardReal extends Component {
                 'Content-Type': 'application/json'
             }
         })
-    }
+    }*/
 
     get = async () => {
         let meses = [], ingresosExtrasMensuales = [], interesesCompuestos = []
@@ -81,7 +82,7 @@ class DashboardReal extends Component {
             ingresosExtrasMensuales: parseFloat(formState.dineroTotal),
             interesesCompuestos: parseFloat(formState.dineroTotalIntereses)
         }
-        await this.services(this.url, 'POST', dataChart)
+        await services(this.url, 'POST', dataChart)
             .then()
             .catch(error => console.error('Error:', error))
             .then(response => {
@@ -104,7 +105,7 @@ class DashboardReal extends Component {
             interesesCompuestos: parseFloat(formState.dineroTotalIntereses)
         }
 
-        await this.services(this.url + this.state.element.id, 'PUT', dataChart)
+        await services(this.url + this.state.element.id, 'PUT', dataChart)
             .then()
             .catch(error => console.error('Error:', error))
             .then(response => {

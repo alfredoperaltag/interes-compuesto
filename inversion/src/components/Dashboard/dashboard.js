@@ -2,6 +2,7 @@ import React from 'react'
 import Charts from '../chart/chart'
 import ChartForm from '../chartForm/chartForm'
 import Auxiliar from '../../Auxiliar/Auxiliar'
+import services from '../../services/services'
 
 import moment from 'moment'
 
@@ -40,13 +41,27 @@ class Dashboard extends React.Component {
         data.ingresoExtraMensual = await notNumber(data.ingresoExtraMensual)
         data.cantidadConsultar = await notNumber(data.cantidadConsultar)
         //await fetch('http://localhost:5000', {
-        await fetch('https://localhost:44381/api/inversion', {
+        /*await fetch('https://localhost:44381/api/inversion', {
             method: 'POST', // or 'PUT'
             body: JSON.stringify(data), // data can be `string` or {object}!
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                this.setState({
+                    interesesCompuestos: response.interesesCompuestos,
+                    dinerosIniciales: response.dinerosIniciales,
+                    meses: response.meses,
+                    ingresosExtrasMensuales: response.ingresosExtrasMensuales,
+                    labelGenerarCentavo: response.labelGenerarCentavo,
+                    labelCantidadConsultada: response.labelCantidadConsultada,
+                    cantidadConsultar: response.cantidadConsultar
+                })
+            });*/
+        await services('https://localhost:44381/api/inversion', 'POST', data)
+            .then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
                 this.setState({
