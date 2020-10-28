@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import Form from '../Form/Form'
-import Input from './inputs/input'
+import Form from '../../components/Form/Form'
+import Input from '../../components/Form/inputs/input'
 
 class ChartForm extends Component {
     state = {

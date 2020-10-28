@@ -1,6 +1,6 @@
 import React from 'react'
-import Charts from '../chart/chart'
-import ChartForm from '../chartForm/chartForm'
+import Charts from '../../components/chart/chart'
+import ChartForm from '../../containers/chartForm/chartForm'
 import Auxiliar from '../../Auxiliar/Auxiliar'
 import services from '../../services/services'
 

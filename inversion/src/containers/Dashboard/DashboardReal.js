@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import ChartFormPropio from '../chartFormPropio/ChartFormPropio'
-import Charts from '../chart/chart'
-import Table from '../Table/Table'
+import ChartFormPropio from '../../containers/chartFormPropio/ChartFormPropio'
+import Charts from '../../components/chart/chart'
+import Table from '../../components/Table/Table'
 import Auxiliar from '../../Auxiliar/Auxiliar'
 import services from '../../services/services'
 
