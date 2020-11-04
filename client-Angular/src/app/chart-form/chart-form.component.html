@@ -1,0 +1,53 @@
+<!-- <onSubmit={this.handleSubmit}> -->
+<form #interesCompuestoForm="ngForm" (ngSubmit)="submit(interesCompuestoForm)">
+    <div class="row">
+        <div class="col text-center">
+            <h1>Interes Compuesto</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-3">
+            <!-- <Input type="date" id="calendario" value={this.state.calendario} onChange={this.handleInputChange}>Fecha
+            limite:
+            </Input> -->
+            <div class="form-group">
+                <label>Fecha limite: </label>
+                <input type=date class="form-control" name="calendario"
+                    [(ngModel)]="interesCompuestoService.interesCompuesto.calendario" />
+            </div>
+            <!-- <Input type="number" min="0" step="0.001" id="dineroInicial" value={this.state.dineroInicial}
+                onChange={this.handleInputChange}>Dinero Inicial: </Input> -->
+            <div class="form-group">
+                <label>Dinero Inicial: </label>
+                <input type=number class="form-control" min="0" step="0.001" name="dineroInicial"
+                    #dineroIncial="ngModel" [(ngModel)]="interesCompuestoService.interesCompuesto.dineroInicial" />
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-3">
+            <!-- <Input type="number" min="0" step="0.001" id="porcentaje" value={this.state.porcentaje}
+                onChange={this.handleInputChange}>Porcentaje: </Input>
+            <Input type="number" min="0" step="0.001" id="ingresoExtraMensual" value={this.state.ingresoExtraMensual}
+                onChange={this.handleInputChange}>Ingreso extra mensual: </Input> -->
+            <div class="form-group">
+                <label>Porcentaje: </label>
+                <input type=number class="form-control" min="0" step="0.001" name="porcentaje"
+                    [(ngModel)]="interesCompuestoService.interesCompuesto.porcentaje" />
+            </div>
+            <div class="form-group">
+                <label>Ingreso Extra Mensual: </label>
+                <input type=number class="form-control" min="0" step="0.001" name="ingresoExtraMensual"
+                    [(ngModel)]="interesCompuestoService.interesCompuesto.ingresoExtraMensual" />
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-3">
+            <!-- <Input type="number" min="0" step="0.001" id="cantidadConsultar" value={this.state.cantidadConsultar}
+                onChange={this.handleInputChange}>Cantidad a consultar: </Input> -->
+            <div class="form-group">
+                <label>Cantidad a Consultar: </label>
+                <input type=number class="form-control" min="0" step="0.001" name="cantidadConsultar"
+                    [(ngModel)]="interesCompuestoService.interesCompuesto.cantidadConsultar" />
+            </div>
+            <button type="submit" class="col-sm-3 col-md-5 btn btn-primary float-left mt-4">Aceptar</button>
+        </div>
+    </div>
+</form>
