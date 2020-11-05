@@ -1,0 +1,52 @@
+<!-- <div class="table-responsive">
+    <table class="table table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Mes</th>
+                <th scope="col">Ingreso Extra Mensual</th>
+                <th scope="col">Interes Compuesto</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {this.props.data.map(element =>
+            <tr key={element.id}>
+                <td>{element.id}</td>
+                <th scope="row">{element.meses}</th>
+                <td>{element.ingresosExtrasMensuales}</td>
+                <td>{element.interesesCompuestos}</td>
+                <td><button onClick={this.props.edit.bind(this, element)} class="btn btn-warning">Editar</button>
+                </td>
+                <td><button onClick={()=> this.alert(element)} class="btn btn-danger">Eliminar</button></td>
+            </tr>
+            )}
+        </tbody>
+    </table>
+</div> -->
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Mes</th>
+                <th scope="col">Ingreso Extra Mensual</th>
+                <th scope="col">Interes Compuesto</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>element.id</td>
+                <th scope="row">element.meses</th>
+                <td>element.ingresosExtrasMensuales</td>
+                <td>element.interesesCompuestos</td>
+                <td><button class="btn btn-warning">Editar</button>
+                </td>
+                <td><button class="btn btn-danger">Eliminar</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
