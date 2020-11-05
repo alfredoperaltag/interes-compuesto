@@ -12,6 +12,9 @@ app.use(cors());
 //necesario para recibir y enviar json
 app.use(express.json())
 
+//Routes
+app.use('/api/interesCompuestoPropio', require('./routes/interesCompuestoPropio.routes'))
+
 app.get('', (req, res) => {
     res.send('Hello World')
 })
