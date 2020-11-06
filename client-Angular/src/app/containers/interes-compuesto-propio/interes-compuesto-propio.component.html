@@ -1,3 +1,72 @@
 <h2>Datos Propios Reales</h2>
 <!-- <app-chart></app-chart> -->
-<app-table></app-table>
+<div>
+    <canvas id="myChart2"></canvas>
+</div>
+<!-- <app-table></app-table> -->
+
+<form #interesCompuestoPropioForm="ngForm" (ngSubmit)="submit(interesCompuestoPropioForm)">
+    <div class="row">
+        <div class="col">
+            <h1>Interes Compuesto Propio</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-2">
+            <div class="form-group">
+                <label>Mes: </label>
+                <input type="number" class="form-control" name="meses" min="0"
+                    [(ngModel)]="interesCompuestoPropioService.selectedInteresCompuestoPropio.meses" />
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-2">
+            <div class="form-group">
+                <label>Dinero Total: </label>
+                <input type="number" class="form-control" name="ingresosExtrasMensuales" min="0" step="0.001"
+                    [(ngModel)]="interesCompuestoPropioService.selectedInteresCompuestoPropio.ingresosExtrasMensuales" />
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-2">
+            <div class="form-group">
+                <label>Dinero Total con Intereses: </label>
+                <input type="number" class="form-control" name="interesesCompuestos" min="0" step="0.001"
+                    [(ngModel)]="interesCompuestoPropioService.selectedInteresCompuestoPropio.interesesCompuestos" />
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-2">
+            <button type="submit" class="">
+                Agregar
+            </button>
+        </div>
+        <div class="col-sm-12 col-md-2">
+            <button class="col-sm-3 col-md-5 btn btn-danger float-left mt-4">Cancelar</button>
+        </div>
+    </div>
+</form>
+
+<!-- <button class="btn btn-primary" onClick={this.toogle}>
+    Agregar Mes
+</button> -->
+
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Mes</th>
+                <th scope="col">Ingreso Extra Mensual</th>
+                <th scope="col">Interes Compuesto</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let interesCompuestoPropio of interesCompuestoPropioService.interesCompuestoPropios">
+                <th scope="row">{{interesCompuestoPropio.meses}}</th>
+                <td>{{interesCompuestoPropio.ingresosExtrasMensuales}}</td>
+                <td>{{interesCompuestoPropio.interesesCompuestos}}</td>
+                <td><button class="btn btn-warning">Editar</button>
+                    <button class="btn btn-danger">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

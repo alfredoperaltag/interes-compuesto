@@ -14,7 +14,6 @@ import Chart from 'chart.js'
 export class ChartFormComponent implements OnInit {
 
   myChart = Chart
-  data: any = null
 
   constructor(public interesCompuestoService: InteresCompuestoService) { }
 
@@ -67,7 +66,6 @@ export class ChartFormComponent implements OnInit {
 
   submit(form: NgForm) {
     this.interesCompuestoService.postInteresCompuesto(form.value).subscribe(res => {
-      this.data = res
       this.interesCompuestoService.interesCompuestoRes = res as InteresCompuestoRes
       this.myChart.data.labels = this.interesCompuestoService.interesCompuestoRes.meses
       this.myChart.data.datasets[0].data = this.interesCompuestoService.interesCompuestoRes.interesesCompuestos

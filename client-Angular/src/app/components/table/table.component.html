@@ -25,7 +25,7 @@
         </tbody>
     </table>
 </div> -->
-<div class="table-responsive">
+<!-- <div class="table-responsive">
     <table class="table table-sm">
         <thead class="thead-dark">
             <tr>
@@ -38,15 +38,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>element.id</td>
-                <th scope="row">element.meses</th>
-                <td>element.ingresosExtrasMensuales</td>
-                <td>element.interesesCompuestos</td>
+            <tr *ngFor="let interesCompuestoPropio of interesCompuestoPropioService.interesCompuestoPropios">
+                <td>{{interesCompuestoPropio.id}}</td>
+                <th scope="row">{{interesCompuestoPropio.meses}}</th>
+                <td>{{interesCompuestoPropio.ingresosExtrasMensuales}}</td>
+                <td>{{interesCompuestoPropio.interesesCompuestos}}</td>
                 <td><button class="btn btn-warning">Editar</button>
                 </td>
                 <td><button class="btn btn-danger">Eliminar</button></td>
             </tr>
         </tbody>
     </table>
-</div>
+</div> -->
