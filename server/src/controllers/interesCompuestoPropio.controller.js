@@ -17,4 +17,15 @@ interesCompuestoPropioCtrl.postInteresCompuestoPropios = async (req, res, next) 
     res.json(interesCompuestoPropio)
 }
 
+interesCompuestoPropioCtrl.putInteresCompuestoPropios = async (req, res, next) => {
+    const { id } = req.params
+    const interesCompuestoPropio = await InteresCompuestoPropio.findByIdAndUpdate(id, { $set: req.body }, { new: true })
+    res.json(interesCompuestoPropio)
+}
+
+interesCompuestoPropioCtrl.deleteInteresCompuestoPropios = async (req, res, next) => {
+    const interesCompuestoPropio = await InteresCompuestoPropio.findByIdAndRemove(req.params.id)
+    res.json(interesCompuestoPropio)
+}
+
 module.exports = interesCompuestoPropioCtrl
