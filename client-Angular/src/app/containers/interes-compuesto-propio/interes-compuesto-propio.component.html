@@ -64,7 +64,8 @@
                 <td>{{interesCompuestoPropio.ingresosExtrasMensuales}}</td>
                 <td>{{interesCompuestoPropio.interesesCompuestos}}</td>
                 <td><button class="btn btn-warning">Editar</button>
-                    <button class="btn btn-danger">Eliminar</button>
+                    <button class="btn btn-danger"
+                        (click)="deleteInteresCompuestoPropio(interesCompuestoPropio._id)">Eliminar</button>
                 </td>
             </tr>
         </tbody>

@@ -98,4 +98,12 @@ export class InteresCompuestoPropioComponent implements OnInit {
     })
   }
 
+  deleteInteresCompuestoPropio(_id: string) {
+    if (confirm('Are you sure you want to delete it?')) {
+      this.interesCompuestoPropioService.deleteInteresCompuestoPropio(_id).subscribe(res => {
+        this.getInteresCompuestoPropio()
+      })
+    }
+  }
+
 }
