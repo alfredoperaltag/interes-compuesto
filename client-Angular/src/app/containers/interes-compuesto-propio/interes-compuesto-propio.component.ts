@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
-import { InteresCompuestoPropioService } from '../../services/interesCompuestoPropio/interes-compuesto-propio.service'
 import { NgForm } from '@angular/forms'
 
 import Chart from 'chart.js'
+
+import { InteresCompuestoPropioService } from '../../services/interesCompuestoPropio/interes-compuesto-propio.service'
 import { InteresCompuestoPropio } from 'src/app/models/interesCompuestoPropio/interes-compuesto-propio';
 
 @Component({
@@ -19,6 +19,8 @@ export class InteresCompuestoPropioComponent implements OnInit {
   meses = []
   ingresosExtrasMensuales = []
   interesesCompuestos = []
+
+  showTable = true
 
   constructor(public interesCompuestoPropioService: InteresCompuestoPropioService) { }
 
@@ -78,7 +80,6 @@ export class InteresCompuestoPropioComponent implements OnInit {
     this.interesesCompuestos = []
     this.interesCompuestoPropioService.getInteresCompuestoPropio().subscribe(res => {
       res.forEach(element => {
-
         this.meses.push(element.meses)
         this.ingresosExtrasMensuales.push(element.ingresosExtrasMensuales)
         this.interesesCompuestos.push(element.interesesCompuestos)
@@ -95,21 +96,24 @@ export class InteresCompuestoPropioComponent implements OnInit {
 
   submit(form: NgForm) {
     if (form.value._id) {
-      this.interesCompuestoPropioService.putInteresCompuestoPropio(form.value._id, form.value)
+      this.interesCompuestoPropioService.putInteresCompuestoPropio(form.value)
         .subscribe(res => {
           this.getInteresCompuestoPropio()
           form.reset()
+          this.toogle()
         })
     } else {
       this.interesCompuestoPropioService.postInteresCompuestoPropio(form.value).subscribe(res => {
         this.getInteresCompuestoPropio()
         form.reset()
+        this.toogle()
       })
     }
   }
 
   editInteresCompuestoPropio(interesCompuestoPropio: InteresCompuestoPropio) {
     this.interesCompuestoPropioService.selectedInteresCompuestoPropio = interesCompuestoPropio
+    this.toogle()
   }
 
   deleteInteresCompuestoPropio(_id: string) {
@@ -118,5 +122,15 @@ export class InteresCompuestoPropioComponent implements OnInit {
         this.getInteresCompuestoPropio()
       })
     }
+  }
+
+  cancel(form?: NgForm) {
+    this.getInteresCompuestoPropio()
+    this.toogle()
+    form.reset()
+  }
+
+  toogle() {
+    this.showTable = !this.showTable
   }
 }

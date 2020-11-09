@@ -26,8 +26,8 @@ export class InteresCompuestoPropioService {
     return this.http.post(this.URL_API, interesCompuestoPropio)
   }
 
-  putInteresCompuestoPropio(_id: string, interesCompuestoPropio: InteresCompuestoPropio) {
-    return this.http.put(this.URL_API + `/${_id}`, interesCompuestoPropio)
+  putInteresCompuestoPropio(interesCompuestoPropio: InteresCompuestoPropio) {
+    return this.http.put(this.URL_API + `/${interesCompuestoPropio._id}`, interesCompuestoPropio)
   }
 
   deleteInteresCompuestoPropio(_id: string) {

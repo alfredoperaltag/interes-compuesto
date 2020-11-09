@@ -5,7 +5,7 @@
 </div>
 <!-- <app-table></app-table> -->
 
-<form #interesCompuestoPropioForm="ngForm" (ngSubmit)="submit(interesCompuestoPropioForm)">
+<form #interesCompuestoPropioForm="ngForm" (ngSubmit)="submit(interesCompuestoPropioForm)" *ngIf="!showTable">
     <div class="row">
         <div class="col">
             <h1>Interes Compuesto Propio</h1>
@@ -45,36 +45,43 @@
             </button>
         </div>
         <div class="col-sm-12 col-md-2">
-            <button class="col-sm-3 col-md-5 btn btn-danger float-left mt-4">Cancelar</button>
+            <button class="col-sm-3 col-md-5 btn btn-danger float-left mt-4"
+                (click)="cancel(interesCompuestoPropioForm)">Cancelar</button>
         </div>
     </div>
 </form>
 
-<!-- <button class="btn btn-primary" onClick={this.toogle}>
-    Agregar Mes
-</button> -->
+<div *ngIf="showTable">
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary" (click)="toogle()">
+                Agregar Mes
+            </button>
+        </div>
+    </div>
 
-<div class="table-responsive">
-    <table class="table table-sm">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Mes</th>
-                <th scope="col">Ingreso Extra Mensual</th>
-                <th scope="col">Interes Compuesto</th>
-                <th>Opciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let interesCompuestoPropio of interesCompuestoPropioService.interesCompuestoPropios">
-                <th scope="row">{{interesCompuestoPropio.meses}}</th>
-                <td>{{interesCompuestoPropio.ingresosExtrasMensuales}}</td>
-                <td>{{interesCompuestoPropio.interesesCompuestos}}</td>
-                <td><button class="btn btn-warning"
-                        (click)="editInteresCompuestoPropio(interesCompuestoPropio)">Editar</button>
-                    <button class="btn btn-danger"
-                        (click)="deleteInteresCompuestoPropio(interesCompuestoPropio._id)">Eliminar</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Mes</th>
+                    <th scope="col">Ingreso Extra Mensual</th>
+                    <th scope="col">Interes Compuesto</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let interesCompuestoPropio of interesCompuestoPropioService.interesCompuestoPropios">
+                    <th scope="row">{{interesCompuestoPropio.meses}}</th>
+                    <td>{{interesCompuestoPropio.ingresosExtrasMensuales}}</td>
+                    <td>{{interesCompuestoPropio.interesesCompuestos}}</td>
+                    <td><button class="btn btn-warning"
+                            (click)="editInteresCompuestoPropio(interesCompuestoPropio)">Editar</button>
+                        <button class="btn btn-danger"
+                            (click)="deleteInteresCompuestoPropio(interesCompuestoPropio._id)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
