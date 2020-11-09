@@ -4,6 +4,7 @@ import { InteresCompuestoPropioService } from '../../services/interesCompuestoPr
 import { NgForm } from '@angular/forms'
 
 import Chart from 'chart.js'
+import { InteresCompuestoPropio } from 'src/app/models/interesCompuestoPropio/interes-compuesto-propio';
 
 @Component({
   selector: 'app-interes-compuesto-propio',
@@ -93,9 +94,22 @@ export class InteresCompuestoPropioComponent implements OnInit {
   }
 
   submit(form: NgForm) {
-    this.interesCompuestoPropioService.postInteresCompuestoPropio(form.value).subscribe(res => {
-      this.getInteresCompuestoPropio()
-    })
+    if (form.value._id) {
+      this.interesCompuestoPropioService.putInteresCompuestoPropio(form.value._id, form.value)
+        .subscribe(res => {
+          this.getInteresCompuestoPropio()
+          form.reset()
+        })
+    } else {
+      this.interesCompuestoPropioService.postInteresCompuestoPropio(form.value).subscribe(res => {
+        this.getInteresCompuestoPropio()
+        form.reset()
+      })
+    }
+  }
+
+  editInteresCompuestoPropio(interesCompuestoPropio: InteresCompuestoPropio) {
+    this.interesCompuestoPropioService.selectedInteresCompuestoPropio = interesCompuestoPropio
   }
 
   deleteInteresCompuestoPropio(_id: string) {
@@ -105,5 +119,4 @@ export class InteresCompuestoPropioComponent implements OnInit {
       })
     }
   }
-
 }

@@ -8,6 +8,7 @@ import { InteresCompuestoPropio } from '../../models/interesCompuestoPropio/inte
 })
 export class InteresCompuestoPropioService {
   selectedInteresCompuestoPropio: InteresCompuestoPropio = {
+    _id: undefined,
     meses: "",
     ingresosExtrasMensuales: 0,
     interesesCompuestos: 0,
@@ -23,6 +24,10 @@ export class InteresCompuestoPropioService {
 
   postInteresCompuestoPropio(interesCompuestoPropio: InteresCompuestoPropio) {
     return this.http.post(this.URL_API, interesCompuestoPropio)
+  }
+
+  putInteresCompuestoPropio(_id: string, interesCompuestoPropio: InteresCompuestoPropio) {
+    return this.http.put(this.URL_API + `/${_id}`, interesCompuestoPropio)
   }
 
   deleteInteresCompuestoPropio(_id: string) {
