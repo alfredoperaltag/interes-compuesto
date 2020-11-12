@@ -4,7 +4,9 @@ const { Schema } = mongoose
 const interesCompuestoPropio = new Schema({
     meses: { type: String, required: true },
     ingresosExtrasMensuales: { type: Number, required: true },
-    interesesCompuestos: { type: Number, required: true }
+    interesesCompuestos: { type: Number, required: true },
+    ganancia: { type: Number, required: true },
+    gananciaHistorica: { type: Number, required: true }
 }, {
     timestamps: true,
     versionKey: false
