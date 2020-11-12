@@ -6,6 +6,7 @@ const interesCompuestoPropio = new Schema({
     ingresosExtrasMensuales: { type: Number, required: true },
     interesesCompuestos: { type: Number, required: true },
     ganancia: { type: Number, required: true },
+    porcentaje: { type: Number, required: true },
     gananciaHistorica: { type: Number, required: true }
 }, {
     timestamps: true,

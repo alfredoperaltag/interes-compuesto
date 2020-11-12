@@ -8,13 +8,18 @@ interesCompuestoPropioCtrl.getInteresCompuestoPropios = async (req, res, next) =
 }
 
 interesCompuestoPropioCtrl.postInteresCompuestoPropios = async (req, res, next) => {
-    const gananciaHistorica = req.body.interesesCompuestos - req.body.ingresosExtrasMensuales
+    const gananciaHistorica = (req.body.interesesCompuestos - req.body.ingresosExtrasMensuales).toFixed(2)
     const ultimateInteresCompuestoPropio = await InteresCompuestoPropio.find().sort({ $natural: -1 }).limit(1)
-    const ganancia = gananciaHistorica - ultimateInteresCompuestoPropio[0].gananciaHistorica
+    const ganancia = (gananciaHistorica - ultimateInteresCompuestoPropio[0].gananciaHistorica).toFixed(2)
+    let porcentaje = 0
+    if (req.body.interesesCompuestos !== 0) {
+        porcentaje = (((ganancia / 30) / req.body.interesesCompuestos) * 36500).toFixed(2)
+    }
     const interesCompuestoPropio = new InteresCompuestoPropio({
         meses: req.body.meses,
         ingresosExtrasMensuales: req.body.ingresosExtrasMensuales,
         interesesCompuestos: req.body.interesesCompuestos,
+        porcentaje,
         gananciaHistorica,
         ganancia
     })
@@ -33,7 +38,11 @@ interesCompuestoPropioCtrl.putInteresCompuestoPropios = async (req, res, next) =
             ganancia = (gananciaHistorica - beforeInteresCompuestoPropio.gananciaHistorica).toFixed(2)
         }
     }
-    req.body = { ...req.body, ganancia, gananciaHistorica }
+    let porcentaje = 0
+    if (req.body.interesesCompuestos !== 0) {
+        porcentaje = (((ganancia / 30) / req.body.interesesCompuestos) * 36500).toFixed(2)
+    }
+    req.body = { ...req.body, ganancia, porcentaje, gananciaHistorica }
     const { id } = req.params
     const interesCompuestoPropio = await InteresCompuestoPropio.findByIdAndUpdate(id, { $set: req.body }, { new: true })
     res.json(interesCompuestoPropio)
