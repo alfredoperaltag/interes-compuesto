@@ -8,6 +8,7 @@ const interesCompuestoPropio = new Schema({
     interesesCompuestos: { type: Number, required: true },
     ganancia: { type: Number, required: true },
     porcentaje: { type: Number, required: true },
+    dias: { type: Number, required: true },
     gananciaHistorica: { type: Number, required: true }
 }, {
     timestamps: true,
@@ -19,6 +20,7 @@ interesCompuestoPropio.statics.generateGanancia = async (id, interesesCompuestos
 
     let ganancia = 0
     let porcentaje = 0
+    let dias = 0
     if (id) {
         const interesesCompuestosPropios = await InteresCompuestoPropio.find()
         const positionInteresCompuestoPropio = interesesCompuestosPropios.findIndex(element => element.id === id)
@@ -32,6 +34,7 @@ interesCompuestoPropio.statics.generateGanancia = async (id, interesesCompuestos
             const interesCompuestoPropio = await InteresCompuestoPropio.findById(id)
             const createdAt = moment(interesCompuestoPropio.createdAt)
             let days = createdAt.diff(moment(beforeInteresCompuestoPropio.createdAt), 'days')
+            dias = days
             days === 0 ? days = 30 : days
             porcentaje = (((ganancia / days) / interesesCompuestos) * 36500).toFixed(2)
         }
@@ -42,12 +45,13 @@ interesCompuestoPropio.statics.generateGanancia = async (id, interesesCompuestos
         if (interesesCompuestos !== 0) {
             const createdAt = moment()
             let days = createdAt.diff(moment(ultimateInteresCompuestoPropio[0].createdAt), 'days')
+            dias = days
             days === 0 ? days = 30 : days
             porcentaje = (((ganancia / days) / interesesCompuestos) * 36500).toFixed(2)
         }
     }
 
-    return { gananciaHistorica, ganancia, porcentaje }
+    return { gananciaHistorica, ganancia, porcentaje, dias }
 }
 
 const InteresCompuestoPropio = mongoose.model('InteresCompuestoPropio', interesCompuestoPropio)

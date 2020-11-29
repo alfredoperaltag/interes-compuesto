@@ -9,7 +9,7 @@ interesCompuestoPropioCtrl.getInteresCompuestoPropios = async (req, res, next) =
 
 interesCompuestoPropioCtrl.postInteresCompuestoPropios = async (req, res, next) => {
     const generateGanancia = await InteresCompuestoPropio.generateGanancia(req.body._id, req.body.interesesCompuestos, req.body.ingresosExtrasMensuales)
-    const { ganancia, gananciaHistorica, porcentaje } = generateGanancia
+    const { ganancia, gananciaHistorica, porcentaje, dias } = generateGanancia
 
     const interesCompuestoPropio = new InteresCompuestoPropio({
         meses: req.body.meses,
@@ -17,7 +17,8 @@ interesCompuestoPropioCtrl.postInteresCompuestoPropios = async (req, res, next) 
         interesesCompuestos: req.body.interesesCompuestos,
         porcentaje,
         gananciaHistorica,
-        ganancia
+        ganancia,
+        dias
     })
     await interesCompuestoPropio.save()
     res.json(interesCompuestoPropio)
@@ -25,9 +26,9 @@ interesCompuestoPropioCtrl.postInteresCompuestoPropios = async (req, res, next) 
 
 interesCompuestoPropioCtrl.putInteresCompuestoPropios = async (req, res, next) => {
     const generateGanancia = await InteresCompuestoPropio.generateGanancia(req.body._id, req.body.interesesCompuestos, req.body.ingresosExtrasMensuales)
-    const { ganancia, gananciaHistorica, porcentaje } = generateGanancia
+    const { ganancia, gananciaHistorica, porcentaje, dias } = generateGanancia
 
-    req.body = { ...req.body, ganancia, porcentaje, gananciaHistorica }
+    req.body = { ...req.body, ganancia, porcentaje, gananciaHistorica, dias }
     const { id } = req.params
     const interesCompuestoPropio = await InteresCompuestoPropio.findByIdAndUpdate(id, { $set: req.body }, { new: true })
     res.json(interesCompuestoPropio)
