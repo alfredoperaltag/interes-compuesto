@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive text-center">
         <table class="table table-sm">
             <thead class="thead-dark">
                 <tr>
@@ -70,6 +70,7 @@
                     <th scope="col">Ganancia</th>
                     <th scope="col">Porcentaje</th>
                     <th scope="col">Ganancia Historica</th>
+                    <th scope="col">Días</th>
                     <th scope="col">Fecha</th>
                     <th>Opciones</th>
                 </tr>
@@ -82,6 +83,7 @@
                     <td>{{interesCompuestoPropio.ganancia}}</td>
                     <td>{{interesCompuestoPropio.porcentaje}}</td>
                     <td>{{interesCompuestoPropio.gananciaHistorica}}</td>
+                    <td>{{interesCompuestoPropio.dias}}</td>
                     <td>{{interesCompuestoPropio.createdAt | date: 'dd/MM/yyyy'}}</td>
                     <td><button class="btn btn-warning"
                             (click)="editInteresCompuestoPropio(interesCompuestoPropio)">Editar</button>
