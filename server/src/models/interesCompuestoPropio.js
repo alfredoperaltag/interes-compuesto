@@ -40,7 +40,8 @@ interesCompuestoPropio.statics.generateGanancia = async (id, interesesCompuestos
         }
     } else {
         const ultimateInteresCompuestoPropio = await InteresCompuestoPropio.find().sort({ $natural: -1 }).limit(1)
-        ganancia = (gananciaHistorica - ultimateInteresCompuestoPropio[0].gananciaHistorica).toFixed(2)
+        if (ultimateInteresCompuestoPropio[0])
+            ganancia = (gananciaHistorica - ultimateInteresCompuestoPropio[0].gananciaHistorica).toFixed(2)
 
         if (interesesCompuestos !== 0) {
             const createdAt = moment()
