@@ -10,6 +10,7 @@ instrumentosCtrl.get = async (req, res, next) => {
 instrumentosCtrl.postInstrumentos = async (req, res, next) => {
     const instrumentos = new Instrumentos({
         nombre: req.body.nombre,
+        activo: req.body.activo
     })
     await instrumentos.save()
     res.json(instrumentos)

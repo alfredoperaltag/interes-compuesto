@@ -15,6 +15,7 @@ app.use(express.json())
 //Routes
 app.use('/api/interesCompuestoPropio', require('./routes/interesCompuestoPropio.routes'))
 app.use('/api/instrumentos', require('./routes/instrumentos.routes'))
+app.use('/api/registros', require('./routes/registros.routes'))
 
 app.get('', (req, res) => {
     res.send('Hello World')

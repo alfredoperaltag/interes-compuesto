@@ -3,6 +3,7 @@ const { Schema } = mongoose
 
 const instrumentos = new Schema({
     nombre: { type: String, required: true },
+    activo: { type: Boolean, required: true }
 }, {
     timestamps: true,
     versionKey: false
