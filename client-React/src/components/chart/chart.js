@@ -22,20 +22,23 @@ class Charts extends Component {
                         borderColor: 'green',
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2,
+                        lineTension: 0
                     },
                     {
                         label: "Ingreso Extra Mensual",
                         data: this.props.ingresosExtrasMensuales,
                         borderColor: 'blue',
                         backgroundColor: 'rgba(255,255,255,0)',
-                        borderWidth: 2
+                        borderWidth: 2,
+                        lineTension: 0
                     },
                     {
                         label: "Dinero inicial",
                         data: this.props.dinerosIniciales,
                         borderColor: 'black',
                         backgroundColor: 'rgba(255,255,255,0)',
-                        borderWidth: 2
+                        borderWidth: 2,
+                        lineTension: 0
                     }
                 ]
             },
@@ -67,20 +70,23 @@ class Charts extends Component {
                         borderColor: 'green',
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2,
+                        lineTension: 0
                     },
                     {
                         label: "Ingreso Extra Mensual",
                         data: this.props.ingresosExtrasMensuales,
                         borderColor: 'blue',
                         backgroundColor: 'rgba(255,255,255,0)',
-                        borderWidth: 2
+                        borderWidth: 2,
+                        lineTension: 0
                     },
                     {
                         label: "Dinero inicial",
                         data: this.props.dinerosIniciales,
                         borderColor: 'black',
                         backgroundColor: 'rgba(255,255,255,0)',
-                        borderWidth: 2
+                        borderWidth: 2,
+                        lineTension: 0
                     }
                 ]
             },

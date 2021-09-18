@@ -5,8 +5,10 @@ import Charts from '../../components/chart/chart'
 import Table from '../../components/Table/Table'
 import Auxiliar from '../../Auxiliar/Auxiliar'
 import services from '../../services/services'
+import servicesRegistros from '../../services/servicesRegistros'
+import Botonera from '../../components/Botonera/botonera'
 
-//import data from '../../sample/data.json'
+import Swal from 'sweetalert2'
 
 class DashboardReal extends Component {
     state = {
@@ -15,21 +17,25 @@ class DashboardReal extends Component {
         showChartFormPropio: false,
         showTable: true,
         element: null,
-        showInputMes: true
+        showInputMes: true,
+        registros: [],
+        showGrafica: true,
+        showBotonera: true
     }
 
-    url = 'https://localhost:44381/api/inversionPropiaItems/'
+    url = 'http://localhost:3000/api/registros/'
+    idCentral = "6136e4ee3874300d8ceab12f"
 
-    get = async () => {
+    get = async (url) => {
         let meses = [], ingresosExtrasMensuales = [], interesesCompuestos = []
-        await fetch(this.url, {
+        await fetch(this.url + url, {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
                 response.forEach(element => {
-                    meses.push(element.meses)
-                    ingresosExtrasMensuales.push(element.ingresosExtrasMensuales)
-                    interesesCompuestos.push(element.interesesCompuestos)
+                    meses.push(element.mes)
+                    ingresosExtrasMensuales.push(element.ingreso_actual)
+                    interesesCompuestos.push(element.total)
                 });
                 this.setState({
                     data: response,
@@ -52,16 +58,16 @@ class DashboardReal extends Component {
     }
 
     post = async dataChart => {
-        await services(this.url, 'POST', dataChart)
+        await services(this.url + "/registro_central", 'POST', dataChart)
             .then()
             .catch(error => console.error('Error:', error))
             .then(response => {
-                this.get()
+                this.get(this.idCentral)
                 this.toogle()
             });
     }
 
-    put = async dataChart => {
+    /*put = async dataChart => {
         await services(this.url + this.state.element.id, 'PUT', dataChart)
             .then()
             .catch(error => console.error('Error:', error))
@@ -70,29 +76,47 @@ class DashboardReal extends Component {
                 this.toogle()
                 this.elementNull()
             });
-    }
+    }*/
 
-    delete = async (id) => {
-        await fetch(this.url + id, {
+    delete = async (mes) => {
+        console.log(mes)
+        await fetch(this.url + "/registro_central/" + mes, {
             method: 'DELETE', // or 'PUT'
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                this.get()
+                this.get(this.idCentral)
+                Swal.fire({
+                    title: '¡Eliminado!',
+                    icon: 'success',
+                    timer: 1250,
+                    timerProgressBar: true
+                })
             });
     }
 
     submit = async formState => {
-        let meses = formState.meses === "0" ? "Inicial" : "Mes " + formState.meses
-        let dataChart = {
-            id: this.state.element ? this.state.element.id : undefined,
-            meses: meses,
-            ingresosExtrasMensuales: parseFloat(formState.dineroTotal),
-            interesesCompuestos: parseFloat(formState.dineroTotalIntereses)
+        const dataChart = {
+            mes: formState.meses,
+            registros: []
         }
+        const registros = []
+        formState.registros.forEach(registro => {
+            let idInputDineroTotal = "dineroTotal" + registro._id
+            let idInputDineroTotalIntereses = "dineroTotalIntereses" + registro._id
+            registros[registro._id] = { instrumento: registro._id }
+
+            for (const key in formState)
+                if (key === idInputDineroTotal)
+                    registros[registro._id].ingreso_actual = parseFloat(formState[key])
+                else if (key === idInputDineroTotalIntereses)
+                    registros[registro._id].total = parseFloat(formState[key])
+
+            dataChart.registros.push(registros[registro._id])
+        })
         if (this.state.element) {
             console.log("put", dataChart);
-            await this.put(dataChart)
+            //await this.put(dataChart)
         } else {
             console.log("post", dataChart);
             await this.post(dataChart)
@@ -100,15 +124,20 @@ class DashboardReal extends Component {
     }
 
     async componentDidMount() {
-        await this.get()
+        await this.get(this.idCentral)
+        await new servicesRegistros().get()
+            .then(res => this.setState({
+                registros: res
+            }))
+            .catch(error => console.error('Error:', error))
     }
 
-    edit = element => {
+    /*edit = element => {
         this.toogle()
         this.setState({
             element: element
         })
-    }
+    }*/
 
     cancel = () => {
         this.toogle()
@@ -118,13 +147,17 @@ class DashboardReal extends Component {
     toogle = () => {
         this.setState({
             showChartFormPropio: !this.state.showChartFormPropio,
-            showTable: !this.state.showTable
+            showTable: !this.state.showTable,
+            showGrafica: !this.state.showGrafica,
+            showBotonera: !this.state.showBotonera
         })
     }
 
     elementNull = () => this.setState({
         element: null
     })
+
+    click = async (id) => await this.get(id)
 
     render() {
         const chartFormPropio = this.state.showChartFormPropio ?
@@ -133,24 +166,54 @@ class DashboardReal extends Component {
                 cancel={this.cancel}
                 element={this.state.element}
                 showInputMes={this.state.showInputMes}
-            /> :
-            <button
-                className="btn btn-primary"
-                onClick={this.toogle}>
-                Agregar Mes
-            </button>
-        const table = this.state.showTable ? <Table
-            data={this.state.data}
-            edit={this.edit}
-            delete={this.delete}
-        /> : null
+                registros={this.state.registros}
+            /> : null
+        const table = this.state.showTable ?
+            <Table
+                data={this.state.data}
+                delete={this.delete}
+            /> : null
+        const grafica = this.state.showGrafica ?
+            <Auxiliar>
+                <Charts
+                    meses={this.state.dataChart.meses}
+                    ingresosExtrasMensuales={this.state.dataChart.ingresosExtrasMensuales}
+                    interesesCompuestos={this.state.dataChart.interesesCompuestos}
+                />
+            </Auxiliar> : null
+        let botonera
+        if (this.state.showBotonera) {
+            botonera = (<Auxiliar>
+                <h1 className="p-3">Rendimientos</h1>
+                <div className="row pb-2">
+                    <div className="col-lg-2">
+                        <button
+                            type="button"
+                            className="btn btn-success col-12"
+                            onClick={() => this.click(this.idCentral)}>
+                            Todos
+                        </button>
+                    </div>
+                    <Botonera
+                        registros={this.state.registros}
+                        onClick={this.click}
+                    />
+                    <div className="col-lg-2">
+                        <button
+                            type="button"
+                            className="btn btn-primary col-12"
+                            onClick={this.toogle}>
+                            Agregar Mes
+                        </button>
+                    </div>
+                </div>
+            </Auxiliar>)
+        } else
+            botonera = null
+
         return (<Auxiliar>
-            <h2>Datos Propios Reales</h2>
-            <Charts
-                meses={this.state.dataChart.meses}
-                ingresosExtrasMensuales={this.state.dataChart.ingresosExtrasMensuales}
-                interesesCompuestos={this.state.dataChart.interesesCompuestos}
-            />
+            {botonera}
+            {grafica}
             {chartFormPropio}
             {table}
         </Auxiliar>)

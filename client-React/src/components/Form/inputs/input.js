@@ -2,7 +2,7 @@ import React from 'react'
 
 const Input = props => {
   if (props.type === "number") {
-    return <div className="form-group">
+    return <div className="form-group col-sm-12 col-md-6">
       <label>{props.children} </label>
       <input
         type={props.type}
@@ -15,7 +15,7 @@ const Input = props => {
       />
     </div>
   }
-  return <div className="form-group">
+  return <div className="form-group col-sm-12 col-md-6">
     <label>{props.children} </label>
     <input
       type={props.type}
