@@ -10,13 +10,13 @@ const registros = new Schema({
     porcentaje: { type: Number, required: true },
     dias: { type: Number, required: true },
     ganancia_historica: { type: Number, required: true },
-    instrumento: { type: mongoose.Schema.Types.ObjectId, required:true }
+    instrumento: { type: mongoose.Schema.Types.ObjectId, required: true }
 }, {
     timestamps: true,
     versionKey: false
 })
 
-registros.statics.calcularGanancia = async (id, total, ingresoActual) => {
+registros.statics.calcularGanancia = async (id, total, ingresoActual, instrumento) => {
     const ganancia_historica = (total - ingresoActual).toFixed(2)
 
     let ganancia = 0
@@ -40,19 +40,28 @@ registros.statics.calcularGanancia = async (id, total, ingresoActual) => {
             porcentaje = (((ganancia / days) / total) * 36500).toFixed(2)
         }
     } else {
+        const ultimoRegistro = await Registros.find({ instrumento }).sort({ $natural: -1 }).limit(1)
 
-        const ultimoRegistro = await Registros.find().sort({ $natural: -1 }).limit(1)
-
-        if (ultimoRegistro[0])
+        if (ultimoRegistro[0]) {
             ganancia = (ganancia_historica - ultimoRegistro[0].ganancia_historica).toFixed(2)
-
-        if (total !== 0) {
             const createdAt = moment()
             let days = createdAt.diff(moment(ultimoRegistro[0].createdAt), 'days')
             dias = days
             days === 0 ? days = 30 : days
-            porcentaje = (((ganancia / days) / total) * 36500).toFixed(2)
-            console.log(porcentaje)
+            if (total !== 0)
+                porcentaje = (((ganancia / days) / total) * 36500).toFixed(2)
+        } else {
+            const registros = new Registros({
+                mes: "0",
+                ingreso_actual: 0,
+                total: 0,
+                ganancia: 0,
+                porcentaje: 0,
+                dias: 0,
+                ganancia_historica: 0,
+                instrumento
+            })
+            await registros.save()
         }
     }
 
