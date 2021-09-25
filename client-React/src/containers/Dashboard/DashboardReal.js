@@ -15,18 +15,16 @@ class DashboardReal extends Component {
         data: [],
         dataChart: {},
         showChartFormPropio: false,
-        showTable: true,
+        showDashboard: true,
         element: null,
         showInputMes: true,
-        registros: [],
-        showGrafica: true,
-        showBotonera: true
+        registros: []
     }
 
     url = 'http://localhost:3000/api/registros/'
     idCentral = "6136e4ee3874300d8ceab12f"
 
-    get = async (url) => {
+    get = async url => {
         let meses = [], ingresosExtrasMensuales = [], interesesCompuestos = []
         await fetch(this.url + url, {
         }).then(res => res.json())
@@ -78,7 +76,7 @@ class DashboardReal extends Component {
             });
     }*/
 
-    delete = async (mes) => {
+    delete = async mes => {
         console.log(mes)
         await fetch(this.url + "/registro_central/" + mes, {
             method: 'DELETE', // or 'PUT'
@@ -147,9 +145,7 @@ class DashboardReal extends Component {
     toogle = () => {
         this.setState({
             showChartFormPropio: !this.state.showChartFormPropio,
-            showTable: !this.state.showTable,
-            showGrafica: !this.state.showGrafica,
-            showBotonera: !this.state.showBotonera
+            showDashboard: !this.state.showDashboard,
         })
     }
 
@@ -157,9 +153,28 @@ class DashboardReal extends Component {
         element: null
     })
 
-    click = async (id) => await this.get(id)
+    click = async id => await this.get(id)
 
     render() {
+        const showDashboard = this.state.showDashboard ?
+            <Auxiliar>
+                <h1 className="p-3">Rendimientos</h1>
+                <Botonera
+                    registros={this.state.registros}
+                    onClick={this.click}
+                    idCentral={this.idCentral}
+                    toogle={this.toogle}
+                />
+                <Charts
+                    meses={this.state.dataChart.meses}
+                    ingresosExtrasMensuales={this.state.dataChart.ingresosExtrasMensuales}
+                    interesesCompuestos={this.state.dataChart.interesesCompuestos}
+                />
+                <Table
+                    data={this.state.data}
+                    delete={this.delete}
+                />
+            </Auxiliar> : null
         const chartFormPropio = this.state.showChartFormPropio ?
             <ChartFormPropio
                 submit={this.submit}
@@ -168,55 +183,11 @@ class DashboardReal extends Component {
                 showInputMes={this.state.showInputMes}
                 registros={this.state.registros}
             /> : null
-        const table = this.state.showTable ?
-            <Table
-                data={this.state.data}
-                delete={this.delete}
-            /> : null
-        const grafica = this.state.showGrafica ?
-            <Auxiliar>
-                <Charts
-                    meses={this.state.dataChart.meses}
-                    ingresosExtrasMensuales={this.state.dataChart.ingresosExtrasMensuales}
-                    interesesCompuestos={this.state.dataChart.interesesCompuestos}
-                />
-            </Auxiliar> : null
-        let botonera
-        if (this.state.showBotonera) {
-            botonera = (<Auxiliar>
-                <h1 className="p-3">Rendimientos</h1>
-                <div className="row pb-2">
-                    <div className="col-lg-2">
-                        <button
-                            type="button"
-                            className="btn btn-success col-12"
-                            onClick={() => this.click(this.idCentral)}>
-                            Todos
-                        </button>
-                    </div>
-                    <Botonera
-                        registros={this.state.registros}
-                        onClick={this.click}
-                    />
-                    <div className="col-lg-2">
-                        <button
-                            type="button"
-                            className="btn btn-primary col-12"
-                            onClick={this.toogle}>
-                            Agregar Mes
-                        </button>
-                    </div>
-                </div>
-            </Auxiliar>)
-        } else
-            botonera = null
 
-        return (<Auxiliar>
-            {botonera}
-            {grafica}
+        return <Auxiliar>
+            {showDashboard}
             {chartFormPropio}
-            {table}
-        </Auxiliar>)
+        </Auxiliar>
     }
 }
 
