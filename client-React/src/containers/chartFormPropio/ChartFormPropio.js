@@ -7,7 +7,7 @@ import services from '../../services/services'
 
 class ChartFormPropio extends Component {
     state = {
-        ingreso_actual:  "",
+        ingreso_actual: "",
         total: "",
         meses: "",
         instrumentos: this.props.instrumentos,
@@ -15,7 +15,6 @@ class ChartFormPropio extends Component {
     }
 
     post = async dataChart => {
-
         await services(this.props.url + "/registro_central", 'POST', dataChart)
             .then()
             .catch(error => console.error('Error:', error))
@@ -31,7 +30,7 @@ class ChartFormPropio extends Component {
             registros: []
         }
         const registros = []
-        formState.registros.forEach(registro => {
+        formState.instrumentos.forEach(registro => {
             let idInputDineroTotal = "dineroTotal" + registro._id
             let idInputDineroTotalIntereses = "dineroTotalIntereses" + registro._id
             registros[registro._id] = { instrumento: registro._id }

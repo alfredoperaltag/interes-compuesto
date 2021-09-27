@@ -2,19 +2,22 @@ import React, { Component } from 'react'
 import Boton from './boton/boton'
 
 class Botonera extends Component {
+
+    click = async id => await this.props.get(id)
+
     render() {
         return (<div className="row pb-2">
             <Boton
                 instrumento={{ nombre: "Todos" }}
                 className="btn btn-success col-12"
-                onClick={() => this.props.onClick(this.props.idCentral)}
+                onClick={() => this.click(this.props.idCentral)}
             />
             {
                 this.props.instrumentos.map(instrumento => {
                     return <Boton
                         instrumento={instrumento}
                         className="btn btn-success col-12"
-                        onClick={() => this.props.onClick(instrumento._id)}
+                        onClick={() => this.click(instrumento._id)}
                         key={instrumento._id}
                     />
                 })

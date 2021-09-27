@@ -4,6 +4,23 @@ import Swal from 'sweetalert2'
 
 class Table extends Component {
 
+    delete = async mes => {
+        console.log(mes)
+        await fetch(this.props.url + "/registro_central/" + mes, {
+            method: 'DELETE', // or 'PUT'
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                this.props.get(this.props.idCentral)
+                Swal.fire({
+                    title: '¡Eliminado!',
+                    icon: 'success',
+                    timer: 1250,
+                    timerProgressBar: true
+                })
+            });
+    }
+
     alert = element => {
         Swal.fire({
             title: '¿Esta seguro de eliminar todos los registros del mes ' + element.mes + '?',
@@ -15,7 +32,7 @@ class Table extends Component {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                this.props.delete(element.mes)
+                this.delete(element.mes)
             }
         })
     }
