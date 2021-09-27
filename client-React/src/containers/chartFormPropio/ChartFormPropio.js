@@ -3,8 +3,65 @@ import React, { Component } from 'react'
 import Form from '../../components/Form/Form'
 import Input from '../../components/Form/inputs/input'
 import InputsRegistro from './InputsRegistro'
+import services from '../../services/services'
 
 class ChartFormPropio extends Component {
+    state = {
+        ingreso_actual:  "",
+        total: "",
+        meses: "",
+        instrumentos: this.props.instrumentos,
+        element: null
+    }
+
+    post = async dataChart => {
+
+        await services(this.props.url + "/registro_central", 'POST', dataChart)
+            .then()
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                this.props.get(this.props.idCentral)
+                this.props.toogle()
+            });
+    }
+
+    submit = async formState => {
+        const dataChart = {
+            mes: formState.meses,
+            registros: []
+        }
+        const registros = []
+        formState.registros.forEach(registro => {
+            let idInputDineroTotal = "dineroTotal" + registro._id
+            let idInputDineroTotalIntereses = "dineroTotalIntereses" + registro._id
+            registros[registro._id] = { instrumento: registro._id }
+
+            for (const key in formState)
+                if (key === idInputDineroTotal)
+                    registros[registro._id].ingreso_actual = parseFloat(formState[key])
+                else if (key === idInputDineroTotalIntereses)
+                    registros[registro._id].total = parseFloat(formState[key])
+
+            dataChart.registros.push(registros[registro._id])
+        })
+        if (this.state.element) {
+            console.log("put", dataChart);
+            //await this.put(dataChart)
+        } else {
+            console.log("post", dataChart);
+            await this.post(dataChart)
+        }
+    }
+
+    elementNull = () => this.setState({
+        element: null
+    })
+
+    cancel = () => {
+        this.props.toogle()
+        this.elementNull()
+    }
+
     componentDidMount() {
         if (this.props.element) {
             if (this.props.element.meses === "Inicial") {
@@ -17,13 +74,6 @@ class ChartFormPropio extends Component {
                 })
             }
         }
-    }
-
-    state = {
-        ingreso_actual: this.props.element ? this.props.element.ingresosExtrasMensuales : "",
-        total: this.props.element ? this.props.element.interesesCompuestos : "",
-        meses: this.props.element ? this.props.element.meses : "",
-        registros: this.props.registros
     }
 
     handleInputChange = async (event) => {
@@ -39,15 +89,15 @@ class ChartFormPropio extends Component {
         className = this.props.element ? className += "btn-warning" : className += "btn-primary"
         const children = this.props.element ? "Editar" : "Agregar"
 
-        let numero = this.props.showInputMes ? <div className="col-sm-12 col-md-6">
+        let numero = <div className="col-sm-12 col-md-6">
             <Input type="number" min="0" id="meses" value={this.state.meses} onChange={this.handleInputChange}>Mes: </Input>
-        </div> : null
+        </div>
         return (
-            <Form submit={() => this.props.submit(this.state)} title="Interes Compuesto Propio">
+            <Form submit={() => this.submit(this.state)} title="Interes Compuesto Propio">
                 <div className="container card">
                     <div className="card-body">
                         {numero}
-                        <InputsRegistro registros={this.state.registros} onChange={this.handleInputChange} />
+                        <InputsRegistro registros={this.state.instrumentos} onChange={this.handleInputChange} />
                         <div className="row justify-content-center">
                             <div className="col-sm-12 col-md-3">
                                 <button
@@ -56,7 +106,7 @@ class ChartFormPropio extends Component {
                                     {children}
                                 </button>
                                 <button
-                                    onClick={this.props.cancel}
+                                    onClick={this.cancel}
                                     className="btn btn-danger m-2">
                                     Cancelar
                                 </button>

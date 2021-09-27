@@ -5,8 +5,8 @@ class Boton extends Component {
         return <div className="col-lg-2">
             <button type="button"
                 className={this.props.className}
-                onClick={() => this.props.onClick(this.props.registro._id)}>
-                {this.props.registro.nombre}
+                onClick={() => this.props.onClick(this.props.instrumento._id)}>
+                {this.props.instrumento.nombre}
             </button>
         </div>
     }

@@ -14,11 +14,11 @@ class Charts extends Component {
             type: "line",
             data: {
                 //Bring in data
-                labels: this.props.meses,
+                labels: this.props.dataChart.meses,
                 datasets: [
                     {
                         label: "Interes Compuesto",
-                        data: this.props.interesesCompuestos,
+                        data: this.props.dataChart.interesesCompuestos,
                         borderColor: 'green',
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2,
@@ -26,7 +26,7 @@ class Charts extends Component {
                     },
                     {
                         label: "Ingreso Extra Mensual",
-                        data: this.props.ingresosExtrasMensuales,
+                        data: this.props.dataChart.ingresosExtrasMensuales,
                         borderColor: 'blue',
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2,
@@ -62,11 +62,11 @@ class Charts extends Component {
             type: "line",
             data: {
                 //Bring in data
-                labels: this.props.meses,
+                labels: this.props.dataChart.meses,
                 datasets: [
                     {
                         label: "Interes Compuesto",
-                        data: this.props.interesesCompuestos,
+                        data: this.props.dataChart.interesesCompuestos,
                         borderColor: 'green',
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2,
@@ -74,7 +74,7 @@ class Charts extends Component {
                     },
                     {
                         label: "Ingreso Extra Mensual",
-                        data: this.props.ingresosExtrasMensuales,
+                        data: this.props.dataChart.ingresosExtrasMensuales,
                         borderColor: 'blue',
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2,

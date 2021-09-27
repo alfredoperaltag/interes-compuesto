@@ -1,4 +1,4 @@
-class servicesRegistros {
+class servicesInstrumentos {
     url = 'http://localhost:3000/api/instrumentos/'
 
     get = async () => {    
@@ -12,4 +12,4 @@ class servicesRegistros {
     }
 }
 
-export default servicesRegistros
+export default servicesInstrumentos
