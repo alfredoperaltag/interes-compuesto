@@ -9,8 +9,10 @@ const registros = new Schema({
     ganancia: { type: Number, required: true },
     porcentaje: { type: Number, required: true },
     dias: { type: Number, required: true },
+    ganancia_dia: { type: Number, required: true },
     ganancia_historica: { type: Number, required: true },
-    instrumento: { type: mongoose.Schema.Types.ObjectId, required: true }
+    instrumento: { type: mongoose.Schema.Types.ObjectId, required: true },
+    id_central: { type: mongoose.Schema.Types.ObjectId, required: false }
 }, {
     timestamps: true,
     versionKey: false
@@ -19,7 +21,7 @@ const registros = new Schema({
 registros.statics.calcularGanancia = async (id, total, ingresoActual, instrumento) => {
     const ganancia_historica = (total - ingresoActual).toFixed(2)
 
-    let ganancia = 0
+    let ganancia = 0, ganancia_dia = 0
     let porcentaje = 0
     let dias = 0
     if (id) {
@@ -47,9 +49,12 @@ registros.statics.calcularGanancia = async (id, total, ingresoActual, instrument
             const createdAt = moment()
             let days = createdAt.diff(moment(ultimoRegistro[0].createdAt), 'days')
             dias = days
-            days === 0 ? days = 30 : days
-            if (total !== 0)
-                porcentaje = (((ganancia / days) / total) * 36500).toFixed(2)
+            days = days === 0 ? 30 : days
+            if (total !== 0) {
+                ganancia_dia = ganancia / days
+                porcentaje = (((ganancia_dia) / total) * 36500).toFixed(2)
+                ganancia_dia = ganancia_dia.toFixed(2)
+            }
         } else {
             const registros = new Registros({
                 mes: "0",
@@ -58,6 +63,7 @@ registros.statics.calcularGanancia = async (id, total, ingresoActual, instrument
                 ganancia: 0,
                 porcentaje: 0,
                 dias: 0,
+                ganancia_dia: 0,
                 ganancia_historica: 0,
                 instrumento
             })
@@ -65,7 +71,7 @@ registros.statics.calcularGanancia = async (id, total, ingresoActual, instrument
         }
     }
 
-    return { ganancia_historica, ganancia, porcentaje, dias }
+    return { ganancia_historica, ganancia, porcentaje, dias, ganancia_dia }
 }
 
 const Registros = mongoose.model('Registros', registros)

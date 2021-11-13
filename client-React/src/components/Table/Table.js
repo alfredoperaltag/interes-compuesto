@@ -4,9 +4,8 @@ import Swal from 'sweetalert2'
 
 class Table extends Component {
 
-    delete = async mes => {
-        console.log(mes)
-        await fetch(this.props.url + "/registro_central/" + mes, {
+    delete = async id_central => {
+        await fetch(this.props.url + "/registro_central/" + id_central, {
             method: 'DELETE', // or 'PUT'
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
@@ -23,7 +22,7 @@ class Table extends Component {
 
     alert = element => {
         Swal.fire({
-            title: '¿Esta seguro de eliminar todos los registros del mes ' + element.mes + '?',
+            title: '¿Esta seguro de eliminar todos los registros relacionados de este mes: ' + element.mes + '?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -32,10 +31,16 @@ class Table extends Component {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                this.delete(element.mes)
+                this.delete(element.id_central)
             }
         })
     }
+
+    pintaTdSpan = (clase, propiedad) => (<td>
+        <span className={"badge bg-" + clase + " text-light"}>
+            {propiedad}
+        </span>
+    </td>)
 
     render() {
         return (<div className="table-responsive">
@@ -47,6 +52,7 @@ class Table extends Component {
                         <th scope="col">Interes Compuesto</th>
                         <th>Porcentaje</th>
                         <th>Ganancia</th>
+                        <th>Ganancia Diaria</th>
                         <th>Ganancia Historica</th>
                         <th>Días</th>
                         <th>Fecha</th>
@@ -59,9 +65,10 @@ class Table extends Component {
                             <th scope="row">{element.mes}</th>
                             <td>{element.ingreso_actual}</td>
                             <td>{element.total}</td>
-                            <td><span className="badge bg-secondary text-light">{element.porcentaje}</span></td>
-                            <td><span className="badge bg-primary text-light">{element.ganancia}</span></td>
-                            <td><span className="badge bg-success text-light">{element.ganancia_historica}</span></td>
+                            {this.pintaTdSpan("secondary", element.porcentaje)}
+                            {this.pintaTdSpan("primary", element.ganancia)}
+                            {this.pintaTdSpan("dark", element.ganancia_dia)}
+                            {this.pintaTdSpan("success", element.ganancia_historica)}
                             <td>{element.dias}</td>
                             <td>{new Date(element.createdAt).toLocaleDateString("es-MX", { year: "numeric", month: '2-digit', day: "2-digit" })}</td>
                             <td><button onClick={() => this.alert(element)} className="btn btn-danger btn-sm">Eliminar</button></td>

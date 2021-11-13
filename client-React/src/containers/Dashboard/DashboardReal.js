@@ -26,23 +26,26 @@ class DashboardReal extends Component {
 
     get = async url => {
         let meses = [], ingresosExtrasMensuales = [], interesesCompuestos = []
-        await fetch(this.url + url, {
+        await fetch(this.url + "promedios/" + url, {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(res => {
-                res.forEach(element => {
+                res.registros.forEach(element => {
                     meses.push(element.mes)
                     ingresosExtrasMensuales.push(element.ingreso_actual)
                     interesesCompuestos.push(element.total)
                 });
                 this.setState({
                     registros: {
-                        data: res,
+                        data: res.registros,
                         dataChart: {
                             meses,
                             ingresosExtrasMensuales,
                             interesesCompuestos
-                        }
+                        },
+                        porcentajePromedio: res.porcentajePromedio,
+                        gananciaPromedio: res.gananciaPromedio,
+                        gananciaDiaPromedio: res.gananciaDiaPromedio
                     }
                 })
             });

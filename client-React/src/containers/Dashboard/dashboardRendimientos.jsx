@@ -3,6 +3,7 @@ import Auxiliar from '../../Auxiliar/Auxiliar'
 import Botonera from '../../components/Botonera/botonera'
 import Charts from '../../components/chart/chart'
 import Table from '../../components/Table/Table'
+import Cards from '../../components/Cards/Cards'
 
 class DashboardRendimientos extends Component {
 
@@ -24,6 +25,11 @@ class DashboardRendimientos extends Component {
                 idCentral={this.props.idCentral}
                 url={this.props.url}
                 get={this.props.get}
+            />
+            <Cards
+                porcentajePromedio={this.props.registros.porcentajePromedio}
+                gananciaPromedio={this.props.registros.gananciaPromedio}
+                gananciaDiaPromedio={this.props.registros.gananciaDiaPromedio}
             />
         </Auxiliar>
     }

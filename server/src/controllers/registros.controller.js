@@ -3,14 +3,39 @@ const Registros = require('../models/registros')
 const registrosCtrl = {}
 
 registrosCtrl.get = async (req, res, next) => {
-    const registros = await Registros.find({ instrumento: req.params._id })
+    const registros = await obtenerRegistros(req)
     res.json(registros)
 }
 
-registrosCtrl.post = async (req, res, next) => {
+const obtenerRegistros = async req => {
+    return await Registros.find({ instrumento: req.params._id })
+}
+
+registrosCtrl.getPromedios = async (req, res, next) => {
+    const registros = await obtenerRegistros(req)
+    let porcentaje = 0, ganancia = 0, gananciaDia = 0
+    registros.forEach(registro => {
+        porcentaje += registro.porcentaje
+        ganancia += registro.ganancia
+        gananciaDia += registro.ganancia_dia
+    })
+    const porcentajePromedio = (porcentaje / (registros.length - 1)).toFixed(2)
+    const gananciaPromedio = (ganancia / (registros.length - 1)).toFixed(2)
+    const gananciaDiaPromedio = (gananciaDia / (registros.length - 1)).toFixed(2)
+
+    const data = {
+        porcentajePromedio,
+        gananciaPromedio,
+        gananciaDiaPromedio,
+        registros
+    }
+    res.json(data)
+}
+
+const guardarRegistro = async req => {
     const generateGanancia = await Registros.calcularGanancia(req.body._id, req.body.total, req.body.ingreso_actual, req.body.instrumento)
-    const { ganancia, ganancia_historica, porcentaje, dias } = generateGanancia
-    const registros = new Registros({
+    const { ganancia, ganancia_historica, porcentaje, dias, ganancia_dia } = generateGanancia
+    const registro = new Registros({
         mes: req.body.mes,
         ingreso_actual: req.body.ingreso_actual,
         total: req.body.total,
@@ -18,10 +43,16 @@ registrosCtrl.post = async (req, res, next) => {
         ganancia_historica,
         ganancia,
         dias,
-        instrumento: req.body.instrumento
+        ganancia_dia,
+        instrumento: req.body.instrumento,
+        id_central: req.body.id_central
     })
-    await registros.save()
-    res.json(registros)
+    return await registro.save()
+}
+
+registrosCtrl.post = async (req, res, next) => {
+    const registro = await guardarRegistro(req)
+    res.json(registro)
 }
 
 registrosCtrl.post_registro_central = async (req, res, next) => {
@@ -31,21 +62,13 @@ registrosCtrl.post_registro_central = async (req, res, next) => {
     let registroCentralEncontrado = false;
     const instrumentoCentral = "6136e4ee3874300d8ceab12f"
     registros.forEach(async registro => {
-        const data = {
-            body: registro
-        }
-        data.body.mes = req.body.mes
-
         if (registro.instrumento === instrumentoCentral)
             registroCentralEncontrado = true
 
         ingreso_actual += registro.ingreso_actual
         total += registro.total
-
-        await registrosCtrl.post(data, res)
     });
     if (!registroCentralEncontrado) {
-        console.log("se creo registro central")
         const data = {
             body: {
                 instrumento: instrumentoCentral,
@@ -54,16 +77,30 @@ registrosCtrl.post_registro_central = async (req, res, next) => {
                 mes: req.body.mes
             }
         }
-        console.log(data)
 
-        await registrosCtrl.post(data, res)
+        const registro = await guardarRegistro(data)
+        console.log("se creo registro central")
+        console.log(registro)
+        const registroIdCentral = registro._id
+        registro.id_central = registroIdCentral
+        await registro.save()
+
+        registros.forEach(async registro => {
+            const data = {
+                body: registro
+            }
+            data.body.mes = req.body.mes
+            data.body.id_central = registroIdCentral
+
+            await guardarRegistro(data)
+        });
     }
 
     res.json({ success: true, mensaje: "registro guardado correctamente" })
 }
 
 registrosCtrl.delete_registro_central = async (req, res, next) => {
-    const registros = await Registros.deleteMany({ mes: req.params.mes })
+    const registros = await Registros.deleteMany({ id_central: req.params.id_central })
     if (registros.ok)
         res.json({ success: true, mensaje: "Registro central borrado correctamente" })
     else
