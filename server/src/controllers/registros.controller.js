@@ -33,7 +33,7 @@ registrosCtrl.getPromedios = async (req, res, next) => {
 }
 
 const guardarRegistro = async req => {
-    const generateGanancia = await Registros.calcularGanancia(req.body._id, req.body.total, req.body.ingreso_actual, req.body.instrumento)
+    const generateGanancia = await Registros.calcularGanancia(req.body.total, req.body.ingreso_actual, req.body.instrumento)
     const { ganancia, ganancia_historica, porcentaje, dias, ganancia_dia } = generateGanancia
     const registro = new Registros({
         mes: req.body.mes,
@@ -72,7 +72,7 @@ registrosCtrl.post_registro_central = async (req, res, next) => {
         const data = {
             body: {
                 instrumento: instrumentoCentral,
-                ingreso_actual,
+                ingreso_actual: ingreso_actual.toFixed(2),
                 total: total.toFixed(2),
                 mes: req.body.mes
             }
