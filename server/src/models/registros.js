@@ -18,57 +18,23 @@ const registros = new Schema({
     versionKey: false
 })
 
-registros.statics.calcularGanancia = async (id, total, ingresoActual, instrumento) => {
+registros.statics.calcularGanancia = async (total, ingresoActual, instrumento) => {
     const ganancia_historica = (total - ingresoActual).toFixed(2)
 
-    let ganancia = 0, ganancia_dia = 0
+    let ganancia_dia = 0
     let porcentaje = 0
     let dias = 0
-    if (id) {
-        const registros = await Registros.find()
-        const positionInteresCompuestoPropio = registros.findIndex(element => element.id === id)
-        const beforeInteresCompuestoPropio = registros[positionInteresCompuestoPropio - 1]
-        if (beforeInteresCompuestoPropio) {
-            if (beforeInteresCompuestoPropio.gananciaHistorica !== undefined) {
-                ganancia = (ganancia_historica - beforeInteresCompuestoPropio.gananciaHistorica).toFixed(2)
-            }
-        }
-        if (total !== 0) {
-            const interesCompuestoPropio = await Registros.findById(id)
-            const createdAt = moment(interesCompuestoPropio.createdAt)
-            let days = createdAt.diff(moment(beforeInteresCompuestoPropio.createdAt), 'days')
-            dias = days
-            days === 0 ? days = 30 : days
-            porcentaje = (((ganancia / days) / total) * 36500).toFixed(2)
-        }
-    } else {
-        const ultimoRegistro = await Registros.find({ instrumento }).sort({ $natural: -1 }).limit(1)
 
-        if (ultimoRegistro[0]) {
-            ganancia = (ganancia_historica - ultimoRegistro[0].ganancia_historica).toFixed(2)
-            const createdAt = moment()
-            let days = createdAt.diff(moment(ultimoRegistro[0].createdAt), 'days')
-            dias = days
-            days = days === 0 ? 30 : days
-            if (total !== 0) {
-                ganancia_dia = ganancia / days
-                porcentaje = (((ganancia_dia) / total) * 36500).toFixed(2)
-                ganancia_dia = ganancia_dia.toFixed(2)
-            }
-        } else {
-            const registros = new Registros({
-                mes: "0",
-                ingreso_actual: 0,
-                total: 0,
-                ganancia: 0,
-                porcentaje: 0,
-                dias: 0,
-                ganancia_dia: 0,
-                ganancia_historica: 0,
-                instrumento
-            })
-            await registros.save()
-        }
+    const ultimoRegistro = await Registros.find({ instrumento }).sort({ $natural: -1 }).limit(1)
+    let ganancia = (ganancia_historica - ultimoRegistro[0].ganancia_historica).toFixed(2)
+    const createdAt = moment()
+    let days = createdAt.diff(moment(ultimoRegistro[0].createdAt), 'days')
+    dias = days
+    days = days === 0 ? 30 : days
+    if (total !== 0) {
+        ganancia_dia = ganancia / days
+        porcentaje = (((ganancia_dia) / total) * 36500).toFixed(2)
+        ganancia_dia = ganancia_dia.toFixed(2)
     }
 
     return { ganancia_historica, ganancia, porcentaje, dias, ganancia_dia }

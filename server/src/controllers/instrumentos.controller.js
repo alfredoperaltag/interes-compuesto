@@ -1,4 +1,5 @@
 const Instrumentos = require('../models/instrumentos')
+const Registros = require('../models/registros')
 
 const instrumentosCtrl = {}
 
@@ -13,6 +14,20 @@ instrumentosCtrl.postInstrumentos = async (req, res, next) => {
         activo: req.body.activo
     })
     await instrumentos.save()
+
+    const registro = new Registros({
+        mes: "0",
+        ingreso_actual: req.body.ingreso_actual,
+        total: req.body.ingreso_actual,
+        ganancia: 0,
+        porcentaje: 0,
+        dias: 0,
+        ganancia_dia: 0,
+        ganancia_historica: 0,
+        instrumento: instrumentos.id
+    })
+    await registro.save()
+
     res.json(instrumentos)
 }
 
