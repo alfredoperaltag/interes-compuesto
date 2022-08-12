@@ -54,6 +54,7 @@ class Table extends Component {
                         <th>Ganancia</th>
                         <th>Ganancia Diaria</th>
                         <th>Ganancia Historica</th>
+                        <th>Portafolio</th>
                         <th>Días</th>
                         <th>Fecha</th>
                         <th>Eliminar</th>
@@ -69,6 +70,7 @@ class Table extends Component {
                             {this.pintaTdSpan("primary", element.ganancia)}
                             {this.pintaTdSpan("dark", element.ganancia_dia)}
                             {this.pintaTdSpan("success", element.ganancia_historica)}
+                            {this.pintaTdSpan("secondary", element.portafolio)}
                             <td>{element.dias}</td>
                             <td>{new Date(element.createdAt).toLocaleDateString("es-MX", { year: "numeric", month: '2-digit', day: "2-digit" })}</td>
                             <td><button onClick={() => this.alert(element)} className="btn btn-danger btn-sm">Eliminar</button></td>
