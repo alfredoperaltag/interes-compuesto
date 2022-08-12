@@ -1,10 +1,31 @@
 const Registros = require('../models/registros')
 
 const registrosCtrl = {}
+const instrumentoCentral = "6136e4ee3874300d8ceab12f"
 
 registrosCtrl.get = async (req, res, next) => {
     const registros = await obtenerRegistros(req)
     res.json(registros)
+}
+
+registrosCtrl.getPorMes = async (req, res, next) => {
+    const registros = await obtenerRegistrosPorMes(req)
+    /*let total = 0
+
+    const registroCentral = registros.find(registro => registro.instrumento == instrumentoCentral)
+    if (registroCentral)
+        total = registroCentral.total
+
+    registros.forEach(registro => {
+        //registro["_doc"] = let registroClone = { ...registro["_doc"] } imprimir let registroClone = { ...registro }
+        registro["_doc"].portafolio = ((registro.total / total) * 100).toFixed(2)
+    });*/
+
+    res.json(registros)
+}
+
+const obtenerRegistrosPorMes = async req => {
+    return await Registros.find({ id_central: req.params._id })
 }
 
 const obtenerRegistros = async req => {
@@ -32,7 +53,7 @@ registrosCtrl.getPromedios = async (req, res, next) => {
     res.json(data)
 }
 
-const guardarRegistro = async req => {
+const guardarRegistro = async (RegistrosTotal, req) => {
     const generateGanancia = await Registros.calcularGanancia(req.body.total, req.body.ingreso_actual, req.body.instrumento)
     const { ganancia, ganancia_historica, porcentaje, dias, ganancia_dia } = generateGanancia
     const registro = new Registros({
@@ -45,7 +66,8 @@ const guardarRegistro = async req => {
         dias,
         ganancia_dia,
         instrumento: req.body.instrumento,
-        id_central: req.body.id_central
+        id_central: req.body.id_central,
+        portafolio: ((req.body.total / RegistrosTotal) * 100).toFixed(2)
     })
     return await registro.save()
 }
@@ -60,7 +82,6 @@ registrosCtrl.post_registro_central = async (req, res, next) => {
 
     let ingreso_actual = 0, total = 0
     let registroCentralEncontrado = false;
-    const instrumentoCentral = "6136e4ee3874300d8ceab12f"
     registros.forEach(async registro => {
         if (registro.instrumento === instrumentoCentral)
             registroCentralEncontrado = true
@@ -78,7 +99,7 @@ registrosCtrl.post_registro_central = async (req, res, next) => {
             }
         }
 
-        const registro = await guardarRegistro(data)
+        const registro = await guardarRegistro(total, data)
         console.log("se creo registro central")
         console.log(registro)
         const registroIdCentral = registro._id
@@ -92,7 +113,7 @@ registrosCtrl.post_registro_central = async (req, res, next) => {
             data.body.mes = req.body.mes
             data.body.id_central = registroIdCentral
 
-            await guardarRegistro(data)
+            await guardarRegistro(total, data)
         });
     }
 

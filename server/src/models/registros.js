@@ -11,6 +11,7 @@ const registros = new Schema({
     dias: { type: Number, required: true },
     ganancia_dia: { type: Number, required: true },
     ganancia_historica: { type: Number, required: true },
+    portafolio: { type: Number, required: true },
     instrumento: { type: mongoose.Schema.Types.ObjectId, required: true },
     id_central: { type: mongoose.Schema.Types.ObjectId, required: false }
 }, {

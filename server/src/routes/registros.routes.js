@@ -5,6 +5,7 @@ const registros = require('../controllers/registros.controller')
 
 router.get('/:_id', registros.get)
 router.get('/promedios/:_id', registros.getPromedios)
+router.get('/mes/:_id', registros.getPorMes)
 router.post('/', registros.post)
 router.post('/registro_central', registros.post_registro_central)
 router.delete('/registro_central/:id_central', registros.delete_registro_central)
