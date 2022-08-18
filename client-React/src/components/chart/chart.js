@@ -31,7 +31,7 @@ class Charts extends Component {
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2,
                         lineTension: 0
-                    },
+                    }/*,
                     {
                         label: "Dinero inicial",
                         data: this.props.dinerosIniciales,
@@ -39,7 +39,7 @@ class Charts extends Component {
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2,
                         lineTension: 0
-                    }
+                    }*/
                 ]
             },
             options: {
@@ -79,7 +79,7 @@ class Charts extends Component {
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2,
                         lineTension: 0
-                    },
+                    }/*,
                     {
                         label: "Dinero inicial",
                         data: this.props.dinerosIniciales,
@@ -87,7 +87,7 @@ class Charts extends Component {
                         backgroundColor: 'rgba(255,255,255,0)',
                         borderWidth: 2,
                         lineTension: 0
-                    }
+                    }*/
                 ]
             },
             options: {

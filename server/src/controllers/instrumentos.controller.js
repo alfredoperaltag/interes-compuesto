@@ -24,7 +24,8 @@ instrumentosCtrl.postInstrumentos = async (req, res, next) => {
         dias: 0,
         ganancia_dia: 0,
         ganancia_historica: 0,
-        instrumento: instrumentos.id
+        instrumento: instrumentos.id,
+        portafolio: 0
     })
     await registro.save()
 

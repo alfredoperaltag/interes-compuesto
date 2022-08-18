@@ -43,9 +43,9 @@ class DashboardReal extends Component {
                             ingresosExtrasMensuales,
                             interesesCompuestos
                         },
-                        porcentajePromedio: res.porcentajePromedio,
-                        gananciaPromedio: res.gananciaPromedio,
-                        gananciaDiaPromedio: res.gananciaDiaPromedio
+                        porcentajePromedio: res.porcentaje,
+                        gananciaPromedio: res.ganancia,
+                        gananciaDiaPromedio: res.gananciaDia
                     }
                 })
             });

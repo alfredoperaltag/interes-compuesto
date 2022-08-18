@@ -35,19 +35,21 @@ const obtenerRegistros = async req => {
 registrosCtrl.getPromedios = async (req, res, next) => {
     const registros = await obtenerRegistros(req)
     let porcentaje = 0, ganancia = 0, gananciaDia = 0
-    registros.forEach(registro => {
-        porcentaje += registro.porcentaje
-        ganancia += registro.ganancia
-        gananciaDia += registro.ganancia_dia
-    })
-    const porcentajePromedio = (porcentaje / (registros.length - 1)).toFixed(2)
-    const gananciaPromedio = (ganancia / (registros.length - 1)).toFixed(2)
-    const gananciaDiaPromedio = (gananciaDia / (registros.length - 1)).toFixed(2)
+    if (registros.length - 1 > 0) {
+        registros.forEach(registro => {
+            porcentaje += registro.porcentaje
+            ganancia += registro.ganancia
+            gananciaDia += registro.ganancia_dia
+        })
+        porcentaje = (porcentaje / (registros.length - 1)).toFixed(2)
+        ganancia = (ganancia / (registros.length - 1)).toFixed(2)
+        gananciaDia = (gananciaDia / (registros.length - 1)).toFixed(2)
+    }
 
     const data = {
-        porcentajePromedio,
-        gananciaPromedio,
-        gananciaDiaPromedio,
+        porcentaje,
+        ganancia,
+        gananciaDia,
         registros
     }
     res.json(data)
