@@ -220,6 +220,8 @@ class DashboardReal extends Component {
                 pieChart={this.state.pieChart}
                 doughnutChart={this.state.doughnutChart}
                 dataAInvertir={this.state.dataAInvertir}
+                idUltimoMes={this.state.idUltimoMes}
+                getPorMes={this.getPorMes}
             /> : null
         const chartFormPropio = this.state.showChartFormPropio ?
             <ChartFormPropio
@@ -228,6 +230,8 @@ class DashboardReal extends Component {
                 get={this.get}
                 toogle={this.toogle}
                 instrumentos={this.state.instrumentos}
+                idUltimoMes={this.state.idUltimoMes}
+                getPorMes={this.getPorMes}
             /> : null
 
         return <Auxiliar>

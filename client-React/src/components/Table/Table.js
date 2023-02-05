@@ -9,8 +9,9 @@ class Table extends Component {
             method: 'DELETE', // or 'PUT'
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
-            .then(response => {
-                this.props.get(this.props.idCentral)
+            .then(async response => {
+                await this.props.get(this.props.idCentral)
+                this.props.getPorMes(this.props.idUltimoMes)
                 Swal.fire({
                     title: '¡Eliminado!',
                     icon: 'success',

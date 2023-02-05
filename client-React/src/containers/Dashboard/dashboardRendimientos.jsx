@@ -25,6 +25,8 @@ class DashboardRendimientos extends Component {
                 idCentral={this.props.idCentral}
                 url={this.props.url}
                 get={this.props.get}
+                idUltimoMes={this.props.idUltimoMes}
+                getPorMes={this.props.getPorMes}
             />
             <Cards
                 porcentajePromedio={this.props.registros.porcentajePromedio}

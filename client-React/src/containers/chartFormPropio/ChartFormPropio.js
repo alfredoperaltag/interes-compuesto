@@ -18,9 +18,10 @@ class ChartFormPropio extends Component {
         await services(this.props.url + "/registro_central", 'POST', dataChart)
             .then()
             .catch(error => console.error('Error:', error))
-            .then(response => {
-                this.props.get(this.props.idCentral)
-                this.props.toogle()
+            .then(async response => {
+                await this.props.get(this.props.idCentral)
+                this.props.getPorMes(this.props.idUltimoMes)
+                this.props.toogle()                
             });
     }
 
