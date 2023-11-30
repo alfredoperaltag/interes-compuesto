@@ -8,11 +8,16 @@ instrumentosCtrl.get = async (req, res, next) => {
     res.json(instrumentos)
 }
 
+instrumentosCtrl.obtenerInstrumento = async (_id) => {
+    return await Instrumentos.find({ _id})
+}
+
 instrumentosCtrl.postInstrumentos = async (req, res, next) => {
     const instrumentos = new Instrumentos({
         nombre: req.body.nombre,
         activo: req.body.activo,
-        color: req.body.color
+        color: req.body.color,
+        porcentaje: req.body.porcentaje
     })
     await instrumentos.save()
 

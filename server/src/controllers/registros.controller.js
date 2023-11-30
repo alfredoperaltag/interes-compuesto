@@ -1,5 +1,7 @@
 const Registros = require('../models/registros')
 
+const instrumentos = require('../controllers/instrumentos.controller')
+
 const registrosCtrl = {}
 const instrumentoCentral = "6136e4ee3874300d8ceab12f"
 
@@ -9,7 +11,7 @@ registrosCtrl.get = async (req, res, next) => {
 }
 
 registrosCtrl.getPorMes = async (req, res, next) => {
-    const registros = await obtenerRegistrosPorMes(req)
+    const registros = await obtenerRegistrosPorMes(req.params._id)
     /*let total = 0
 
     const registroCentral = registros.find(registro => registro.instrumento == instrumentoCentral)
@@ -24,8 +26,8 @@ registrosCtrl.getPorMes = async (req, res, next) => {
     res.json(registros)
 }
 
-const obtenerRegistrosPorMes = async req => {
-    return await Registros.find({ id_central: req.params._id })
+const obtenerRegistrosPorMes = async id_central => {
+    return await Registros.find({ id_central})
 }
 
 const obtenerRegistros = async req => {
@@ -69,7 +71,8 @@ const guardarRegistro = async (RegistrosTotal, req) => {
         ganancia_dia,
         instrumento: req.body.instrumento,
         id_central: req.body.id_central,
-        portafolio: ((req.body.total / RegistrosTotal) * 100).toFixed(2)
+        portafolio: ((req.body.total / RegistrosTotal) * 100).toFixed(2),
+        cantidadAInvertir: 0
     })
     return await registro.save()
 }
@@ -104,7 +107,8 @@ registrosCtrl.post_registro_central = async (req, res, next) => {
             dias,
             ganancia_dia: 0,
             instrumento: instrumentoCentral,
-            portafolio: 100
+            portafolio: 100,
+            cantidadAInvertir: 0
         })
         await registro.save()
         console.log("se creo registro central")
@@ -132,9 +136,17 @@ registrosCtrl.post_registro_central = async (req, res, next) => {
         registro.ganancia_dia = gananciaDia.toFixed(2)
         registro.porcentaje = Registros.obtenerPorcentaje(registro.ganancia_dia, registro.total)
         registro.id_central = registroIdCentral
-        registro.save()
+        await registro.save()
         console.log("se actualizo registro central")
         console.log(registro)
+
+        const registrosGuardados = await obtenerRegistrosPorMes(registro)
+        registrosGuardados.forEach(async registroGuardado => {
+            const instrumento = await instrumentos.obtenerInstrumento(registroGuardado.instrumento)
+            if (instrumento[0].porcentaje)
+                registroGuardado.cantidadAInvertir = registro.total * (instrumento[0].porcentaje / 100) - registroGuardado.total
+            registroGuardado.save()
+        })
     }
 
     res.json({ success: true, mensaje: "registro guardado correctamente" })

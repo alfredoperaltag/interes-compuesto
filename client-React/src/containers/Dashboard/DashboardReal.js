@@ -85,7 +85,6 @@ class DashboardReal extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(res => {
-                const registroCentral = res.find(registro => registro.instrumento === this.idCentral)
                 const dataAInvertir = []
                 res.forEach(registro => {
                     if (registro.instrumento !== this.idCentral) {
@@ -93,42 +92,12 @@ class DashboardReal extends Component {
                             if (instrumento._id === registro.instrumento) {
                                 instrumentos.push(instrumento.nombre)
                                 colores.push(instrumento.color)
-                                switch (registro.instrumento) {
-                                    case "6139abfcc830aa20acf98e29":
-                                        //dataAInvertir[instrumento.nombre] = registroCentral.total * 0.30 - registro.total
-                                        dataAInvertir.push({
-                                            nombre: instrumento.nombre,
-                                            dineroAInvertir: registroCentral.total * 0.30 - registro.total
-                                        })
-                                        break;
-                                    case "641b6bfdddff0a033aa38ea0":
-                                        dataAInvertir.push({
-                                            nombre: instrumento.nombre,
-                                            dineroAInvertir: registroCentral.total * 0.30 - registro.total
-                                        })
-                                        break;
-                                    case "61542f7b6f48bd18f80b35c8":
-                                        dataAInvertir.push({
-                                            nombre: instrumento.nombre,
-                                            dineroAInvertir: registroCentral.total * 0.15 - registro.total
-                                        })
-                                        break;
-                                    case "61542f846f48bd18f80b35c9":
-                                        dataAInvertir.push({
-                                            nombre: instrumento.nombre,
-                                            dineroAInvertir: registroCentral.total * 0.20 - registro.total
-                                        })
-                                        break;
-                                    case "6411f611296aa10304b3fee5":
-                                        dataAInvertir.push({
-                                            nombre: instrumento.nombre,
-                                            dineroAInvertir: registroCentral.total * 0.05 - registro.total
-                                        })
-                                        break;
-                                    default:
-                                        break;
+                                if (instrumento.porcentaje > 0) {
+                                    dataAInvertir.push({
+                                        nombre: instrumento.nombre,
+                                        dineroAInvertir: registro.cantidadAInvertir?registro.cantidadAInvertir:0//todos los registros deben tener cantidadAInvertir para corregir esta linea
+                                    })
                                 }
-
                             }
                         });
                         data.push(registro.portafolio)
