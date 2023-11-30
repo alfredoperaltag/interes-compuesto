@@ -80,43 +80,61 @@ registrosCtrl.post = async (req, res, next) => {
 }
 
 registrosCtrl.post_registro_central = async (req, res, next) => {
+    console.log(req.body)
     const registros = req.body.registros
 
-    let ingreso_actual = 0, total = 0
-    let registroCentralEncontrado = false;
+    let total = 0, registroCentralEncontrado = false;
     registros.forEach(async registro => {
         if (registro.instrumento === instrumentoCentral)
             registroCentralEncontrado = true
 
-        ingreso_actual += registro.ingreso_actual
         total += registro.total
     });
     if (!registroCentralEncontrado) {
-        const data = {
-            body: {
-                instrumento: instrumentoCentral,
-                ingreso_actual: ingreso_actual.toFixed(2),
-                total: total.toFixed(2),
-                mes: req.body.mes
-            }
-        }
+        const ultimoRegistro = await Registros.obtenerUltimoRegistro(instrumentoCentral)
+        const dias = await Registros.obtenerDias(ultimoRegistro)
 
-        const registro = await guardarRegistro(total, data)
+        const registro = new Registros({
+            mes: req.body.mes,
+            ingreso_actual: 0,
+            total: total.toFixed(2),
+            porcentaje: 0,
+            ganancia_historica: 0,
+            ganancia: 0,
+            dias,
+            ganancia_dia: 0,
+            instrumento: instrumentoCentral,
+            portafolio: 100
+        })
+        await registro.save()
         console.log("se creo registro central")
         console.log(registro)
         const registroIdCentral = registro._id
-        registro.id_central = registroIdCentral
-        await registro.save()
-
-        registros.forEach(async registro => {
+        let ingresoActual = 0, gananciaHistorica = 0, ganancia = 0, gananciaDia = 0
+        for (let index = 0; index < registros.length; index++) {
+            const subRegistro = registros[index];
             const data = {
-                body: registro
+                body: subRegistro
             }
             data.body.mes = req.body.mes
             data.body.id_central = registroIdCentral
 
-            await guardarRegistro(total, data)
-        });
+            const registroGuardado = await guardarRegistro(total, data)
+            ingresoActual += registroGuardado.ingreso_actual
+            gananciaHistorica += registroGuardado.ganancia_historica
+            ganancia += registroGuardado.ganancia
+            gananciaDia += registroGuardado.ganancia_dia
+        }
+
+        registro.ingreso_actual = ingresoActual.toFixed(2)
+        registro.ganancia = ganancia.toFixed(2)
+        registro.ganancia_historica = gananciaHistorica.toFixed(2)
+        registro.ganancia_dia = gananciaDia.toFixed(2)
+        registro.porcentaje = Registros.obtenerPorcentaje(registro.ganancia_dia, registro.total)
+        registro.id_central = registroIdCentral
+        registro.save()
+        console.log("se actualizo registro central")
+        console.log(registro)
     }
 
     res.json({ success: true, mensaje: "registro guardado correctamente" })

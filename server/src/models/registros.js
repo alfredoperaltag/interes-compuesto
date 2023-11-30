@@ -19,6 +19,15 @@ const registros = new Schema({
     versionKey: false
 })
 
+registros.statics.obtenerUltimoRegistro = async (instrumento) => await Registros.find({ instrumento }).sort({ $natural: -1 }).limit(1)
+
+registros.statics.obtenerDias = (ultimoRegistro) => {
+    const createdAt = moment()
+    return createdAt.diff(moment(ultimoRegistro[0].createdAt), 'days')
+}
+
+registros.statics.obtenerPorcentaje = (ganancia_dia, total) => (((ganancia_dia) / total) * 36500).toFixed(2)
+
 registros.statics.calcularGanancia = async (total, ingresoActual, instrumento) => {
     const ganancia_historica = (total - ingresoActual).toFixed(2)
 
@@ -26,15 +35,14 @@ registros.statics.calcularGanancia = async (total, ingresoActual, instrumento) =
     let porcentaje = 0
     let dias = 0
 
-    const ultimoRegistro = await Registros.find({ instrumento }).sort({ $natural: -1 }).limit(1)
+    const ultimoRegistro = await Registros.obtenerUltimoRegistro(instrumento)
+    let days = await Registros.obtenerDias(ultimoRegistro)
     let ganancia = (ganancia_historica - ultimoRegistro[0].ganancia_historica).toFixed(2)
-    const createdAt = moment()
-    let days = createdAt.diff(moment(ultimoRegistro[0].createdAt), 'days')
     dias = days
     days = days === 0 ? 30 : days
     if (total !== 0) {
         ganancia_dia = ganancia / days
-        porcentaje = (((ganancia_dia) / total) * 36500).toFixed(2)
+        porcentaje = Registros.obtenerPorcentaje(ganancia_dia, total)
         ganancia_dia = ganancia_dia.toFixed(2)
     }
 

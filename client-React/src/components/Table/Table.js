@@ -37,16 +37,16 @@ class Table extends Component {
         })
     }
 
-    pintaTdSpan = (clase, propiedad) => (<td>
-        <span className={"badge bg-" + clase + " text-light"}>
+    pintaTdSpan = (clase, texto, propiedad) => (<td>
+        <span className={"badge bg-" + clase + " " + texto}>
             {propiedad}
         </span>
     </td>)
 
     render() {
         return (<div className="table-responsive">
-            <table className="table table-sm">
-                <thead className="thead-dark">
+            <table className="table table-sm text-white">
+                <thead className="thead-light">
                     <tr>
                         <th scope="col">Mes</th>
                         <th scope="col">Ingreso Mensual</th>
@@ -67,11 +67,11 @@ class Table extends Component {
                             <th scope="row">{element.mes}</th>
                             <td>{element.ingreso_actual}</td>
                             <td>{element.total}</td>
-                            {this.pintaTdSpan("secondary", element.porcentaje)}
-                            {this.pintaTdSpan("primary", element.ganancia)}
-                            {this.pintaTdSpan("dark", element.ganancia_dia)}
-                            {this.pintaTdSpan("success", element.ganancia_historica)}
-                            {this.pintaTdSpan("secondary", element.portafolio)}
+                            {this.pintaTdSpan("secondary", "text-light",element.porcentaje)}
+                            {this.pintaTdSpan("primary", "text-light",element.ganancia)}
+                            {this.pintaTdSpan("white", "text-dark",element.ganancia_dia)}
+                            {this.pintaTdSpan("success", "text-light",element.ganancia_historica)}
+                            {this.pintaTdSpan("secondary", "text-light",element.portafolio)}
                             <td>{element.dias}</td>
                             <td>{new Date(element.createdAt).toLocaleDateString("es-MX", { year: "numeric", month: '2-digit', day: "2-digit" })}</td>
                             <td><button onClick={() => this.alert(element)} className="btn btn-danger btn-sm">Eliminar</button></td>

@@ -7,7 +7,7 @@ class Cards extends Component {
         return <div className="row justify-content-center">
             <Card class={"secondary"} titulo={"Porcentaje"} porcentaje={this.props.porcentajePromedio} />
             <Card class={"primary"} titulo={"Ganancia"} porcentaje={this.props.gananciaPromedio} />
-            <Card class={"dark"} titulo={"Ganancia diaria"} porcentaje={this.props.gananciaDiaPromedio} />
+            <Card class={"white text-dark"} titulo={"Ganancia diaria"} porcentaje={this.props.gananciaDiaPromedio} />
         </div>
     }
 }

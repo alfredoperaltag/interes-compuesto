@@ -94,7 +94,7 @@ class ChartFormPropio extends Component {
         </div>
         return (
             <Form submit={() => this.submit(this.state)} title="Interes Compuesto Propio">
-                <div className="container card">
+                <div className="container card bg-dark border-white">
                     <div className="card-body">
                         {numero}
                         <InputsRegistro registros={this.state.instrumentos} onChange={this.handleInputChange} />

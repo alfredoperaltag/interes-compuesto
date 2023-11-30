@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import ChartFormPropio from '../../containers/chartFormPropio/ChartFormPropio'
 import Auxiliar from '../../Auxiliar/Auxiliar'
 import servicesInstrumentos from '../../services/servicesInstrumentos'
+import TableInstrumentos from '../TableInstrumentos/TableInstrumentos'
 
 import DashboardRendimientos from './dashboardRendimientos'
 
@@ -10,6 +11,7 @@ class DashboardReal extends Component {
     state = {
         showChartFormPropio: false,
         showDashboardRendimientos: true,
+        showTableInstrumentos: false,
         instrumentos: [],
         registros: {
             data: []
@@ -85,7 +87,6 @@ class DashboardReal extends Component {
             .then(res => {
                 const registroCentral = res.find(registro => registro.instrumento === this.idCentral)
                 const dataAInvertir = []
-                let vwoAgregago = false
                 res.forEach(registro => {
                     if (registro.instrumento !== this.idCentral) {
                         this.state.instrumentos.forEach(instrumento => {
@@ -100,7 +101,7 @@ class DashboardReal extends Component {
                                             dineroAInvertir: registroCentral.total * 0.30 - registro.total
                                         })
                                         break;
-                                    case "61542f5e6f48bd18f80b35c7":
+                                    case "641b6bfdddff0a033aa38ea0":
                                         dataAInvertir.push({
                                             nombre: instrumento.nombre,
                                             dineroAInvertir: registroCentral.total * 0.30 - registro.total
@@ -118,14 +119,14 @@ class DashboardReal extends Component {
                                             dineroAInvertir: registroCentral.total * 0.20 - registro.total
                                         })
                                         break;
+                                    case "6411f611296aa10304b3fee5":
+                                        dataAInvertir.push({
+                                            nombre: instrumento.nombre,
+                                            dineroAInvertir: registroCentral.total * 0.05 - registro.total
+                                        })
+                                        break;
                                     default:
-                                        if (!vwoAgregago)
-                                            dataAInvertir.push({
-                                                nombre: "VWO",
-                                                dineroAInvertir: registroCentral.total * 0.05
-                                            })
-                                        vwoAgregago = true
-                                        break
+                                        break;
                                 }
 
                             }
@@ -207,6 +208,22 @@ class DashboardReal extends Component {
         })
     }
 
+    toogleInstrumentos = () => {
+        console.log("epa2")
+        this.setState({
+            showDashboardRendimientos: false,
+            showTableInstrumentos: true,
+        })
+    }
+
+    toogleDashboard = () => {
+        console.log("epa")
+        this.setState({
+            showDashboardRendimientos: true,
+            showTableInstrumentos: false,
+        })
+    }
+
     render() {
         const dashboardRendimientos = this.state.showDashboardRendimientos ?
             <DashboardRendimientos
@@ -214,6 +231,7 @@ class DashboardReal extends Component {
                 idCentral={this.idCentral}
                 get={this.get}
                 toogle={this.toogle}
+                toogleInstrumentos={this.toogleInstrumentos}
                 instrumentos={this.state.instrumentos}
                 registros={this.state.registros}
                 lineChart={this.state.lineChart}
@@ -233,10 +251,22 @@ class DashboardReal extends Component {
                 idUltimoMes={this.state.idUltimoMes}
                 getPorMes={this.getPorMes}
             /> : null
+        const tableInstrumentos = this.state.showTableInstrumentos ?
+            <TableInstrumentos
+                url={this.url}
+                idCentral={this.idCentral}
+                get={this.get}
+                toogle={this.toogle}
+                toogleDashboard={this.toogleDashboard}
+                instrumentos={this.state.instrumentos}
+                idUltimoMes={this.state.idUltimoMes}
+                getPorMes={this.getPorMes}
+            /> : null
 
         return <Auxiliar>
             {dashboardRendimientos}
             {chartFormPropio}
+            {tableInstrumentos}
         </Auxiliar>
     }
 }

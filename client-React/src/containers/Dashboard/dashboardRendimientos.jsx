@@ -5,11 +5,15 @@ import Charts from '../../components/Chart/chart'
 import Table from '../../components/Table/Table'
 import Cards from '../../components/Cards/Cards'
 import Spans from '../../components/Spans/spans'
+import Header from '../../components/Header/Header'
 
 class DashboardRendimientos extends Component {
 
     render() {
         return <Auxiliar>
+            <Header
+            toogleInstrumentos={this.props.toogleInstrumentos}
+            />
             <Botonera
                 instrumentos={this.props.instrumentos}
                 idCentral={this.props.idCentral}
