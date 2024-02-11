@@ -49,8 +49,9 @@ class Table extends Component {
                 <thead className="thead-light">
                     <tr>
                         <th scope="col">Mes</th>
-                        <th scope="col">Ingreso Mensual</th>
-                        <th scope="col">Interes Compuesto</th>
+                        <th scope="col">Dinero Ingresado</th>
+                        <th scope="col">Ultimo Aporte</th>
+                        <th scope="col">Total</th>
                         <th>Porcentaje</th>
                         <th>Ganancia</th>
                         <th>Ganancia Diaria</th>
@@ -66,12 +67,13 @@ class Table extends Component {
                         <tr key={element._id}>
                             <th scope="row">{element.mes}</th>
                             <td>{element.ingreso_actual}</td>
+                            <td>{element.aporte}</td>
                             <td>{element.total}</td>
-                            {this.pintaTdSpan("secondary", "text-light",element.porcentaje)}
-                            {this.pintaTdSpan("primary", "text-light",element.ganancia)}
-                            {this.pintaTdSpan("white", "text-dark",element.ganancia_dia)}
-                            {this.pintaTdSpan("success", "text-light",element.ganancia_historica)}
-                            {this.pintaTdSpan("secondary", "text-light",element.portafolio)}
+                            {this.pintaTdSpan("secondary", "text-light", element.porcentaje)}
+                            {this.pintaTdSpan("primary", "text-light", element.ganancia)}
+                            {this.pintaTdSpan("white", "text-dark", element.ganancia_dia)}
+                            {this.pintaTdSpan("success", "text-light", element.ganancia_historica)}
+                            {this.pintaTdSpan("secondary", "text-light", element.portafolio)}
                             <td>{element.dias}</td>
                             <td>{new Date(element.createdAt).toLocaleDateString("es-MX", { year: "numeric", month: '2-digit', day: "2-digit" })}</td>
                             <td><button onClick={() => this.alert(element)} className="btn btn-danger btn-sm">Eliminar</button></td>

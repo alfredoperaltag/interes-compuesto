@@ -27,7 +27,7 @@ registrosCtrl.getPorMes = async (req, res, next) => {
 }
 
 const obtenerRegistrosPorMes = async id_central => {
-    return await Registros.find({ id_central})
+    return await Registros.find({ id_central })
 }
 
 const obtenerRegistros = async req => {
@@ -59,7 +59,7 @@ registrosCtrl.getPromedios = async (req, res, next) => {
 
 const guardarRegistro = async (RegistrosTotal, req) => {
     const generateGanancia = await Registros.calcularGanancia(req.body.total, req.body.ingreso_actual, req.body.instrumento)
-    const { ganancia, ganancia_historica, porcentaje, dias, ganancia_dia } = generateGanancia
+    const { ganancia, ganancia_historica, porcentaje, dias, ganancia_dia, aporte } = generateGanancia
     const registro = new Registros({
         mes: req.body.mes,
         ingreso_actual: req.body.ingreso_actual,
@@ -72,7 +72,8 @@ const guardarRegistro = async (RegistrosTotal, req) => {
         instrumento: req.body.instrumento,
         id_central: req.body.id_central,
         portafolio: ((req.body.total / RegistrosTotal) * 100).toFixed(2),
-        cantidadAInvertir: 0
+        cantidadAInvertir: 0,
+        aporte
     })
     return await registro.save()
 }
@@ -108,13 +109,14 @@ registrosCtrl.post_registro_central = async (req, res, next) => {
             ganancia_dia: 0,
             instrumento: instrumentoCentral,
             portafolio: 100,
-            cantidadAInvertir: 0
+            cantidadAInvertir: 0,
+            aporte: 0
         })
         await registro.save()
         console.log("se creo registro central")
         console.log(registro)
         const registroIdCentral = registro._id
-        let ingresoActual = 0, gananciaHistorica = 0, ganancia = 0, gananciaDia = 0
+        let ingresoActual = 0, gananciaHistorica = 0, ganancia = 0, gananciaDia = 0, aporte = 0
         for (let index = 0; index < registros.length; index++) {
             const subRegistro = registros[index];
             const data = {
@@ -128,6 +130,7 @@ registrosCtrl.post_registro_central = async (req, res, next) => {
             gananciaHistorica += registroGuardado.ganancia_historica
             ganancia += registroGuardado.ganancia
             gananciaDia += registroGuardado.ganancia_dia
+            aporte += registroGuardado.aporte
         }
 
         registro.ingreso_actual = ingresoActual.toFixed(2)
@@ -136,6 +139,7 @@ registrosCtrl.post_registro_central = async (req, res, next) => {
         registro.ganancia_dia = gananciaDia.toFixed(2)
         registro.porcentaje = Registros.obtenerPorcentaje(registro.ganancia_dia, registro.total)
         registro.id_central = registroIdCentral
+        registro.aporte = aporte.toFixed(2)
         await registro.save()
         console.log("se actualizo registro central")
         console.log(registro)

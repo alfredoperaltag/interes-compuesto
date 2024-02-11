@@ -14,7 +14,8 @@ const registros = new Schema({
     portafolio: { type: Number, required: true },
     cantidadAInvertir: { type: Number, required: true },
     instrumento: { type: mongoose.Schema.Types.ObjectId, required: true },
-    id_central: { type: mongoose.Schema.Types.ObjectId, required: false }
+    id_central: { type: mongoose.Schema.Types.ObjectId, required: false },
+    aporte: { type: Number, required: true }
 }, {
     timestamps: true,
     versionKey: false
@@ -39,6 +40,7 @@ registros.statics.calcularGanancia = async (total, ingresoActual, instrumento) =
     const ultimoRegistro = await Registros.obtenerUltimoRegistro(instrumento)
     let days = await Registros.obtenerDias(ultimoRegistro)
     let ganancia = (ganancia_historica - ultimoRegistro[0].ganancia_historica).toFixed(2)
+    const aporte = (ingresoActual - ultimoRegistro[0].ingreso_actual).toFixed(2)
     dias = days
     days = days === 0 ? 30 : days
     if (total !== 0) {
@@ -47,7 +49,7 @@ registros.statics.calcularGanancia = async (total, ingresoActual, instrumento) =
         ganancia_dia = ganancia_dia.toFixed(2)
     }
 
-    return { ganancia_historica, ganancia, porcentaje, dias, ganancia_dia }
+    return { ganancia_historica, ganancia, porcentaje, dias, ganancia_dia, aporte }
 }
 
 const Registros = mongoose.model('Registros', registros)
