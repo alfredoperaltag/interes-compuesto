@@ -57,6 +57,42 @@ registrosCtrl.getPromedios = async (req, res, next) => {
     res.json(data)
 }
 
+registrosCtrl.getPromediosPorAnios = async (req, res, next) => {
+    let registros = await obtenerRegistros(req)
+    const mesesAnuales = []
+    let porcentaje = 0, ganancia = 0, gananciaDia = 0
+    if (registros.length - 1 > 0) {
+        let mesAnual = 11, registrosRestantes = registros.length
+        for (let index = 0; index < registros.length; index++) {
+            const registro = registros[index];
+            porcentaje += registro.porcentaje
+            ganancia += registro.ganancia
+            gananciaDia += registro.ganancia_dia
+            if (mesAnual == index) {
+                mesesAnuales.push(registro)
+                registrosRestantes = registros.length - mesAnual
+                mesAnual += 12
+            } else if (registrosRestantes < 11) {
+                mesesAnuales.push(registro)
+                registrosRestantes -= 1
+            }
+        }
+
+        porcentaje = (porcentaje / (registros.length - 1)).toFixed(2)
+        ganancia = (ganancia / (registros.length - 1)).toFixed(2)
+        gananciaDia = (gananciaDia / (registros.length - 1)).toFixed(2)
+    }
+    registros = mesesAnuales
+
+    const data = {
+        porcentaje,
+        ganancia,
+        gananciaDia,
+        registros
+    }
+    res.json(data)
+}
+
 const guardarRegistro = async (RegistrosTotal, req) => {
     const generateGanancia = await Registros.calcularGanancia(req.body.total, req.body.ingreso_actual, req.body.instrumento)
     const { ganancia, ganancia_historica, porcentaje, dias, ganancia_dia, aporte } = generateGanancia
